@@ -8,8 +8,8 @@ export default function Table({name, columns, data, onEdit, onDelete}) {
 
     return (
         <div className="overflow-x-auto rounded-md shadow">
-            <table className="min-w-full text-center text-sm bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e]">
-                <thead className="uppercase text-gray-300 bg-[#1c1a3a]">
+            <table className="min-w-full uppercase text-center text-sm bg-gradient-to-br from-black via-red-900 to-black">
+                <thead className="text-gray-300 bg-red-950">
                     <tr>
                         {columns.map((col) => (
                             <th key={col.key} className="px-6 py-4">
@@ -24,7 +24,7 @@ export default function Table({name, columns, data, onEdit, onDelete}) {
                 <tbody>
                     {data.length > 0 ? (
                         data.map((item, index) => (
-                            <tr key={item.id || index} className="border-b border-gray-700 hover:bg-[#34315d] transition">
+                            <tr key={item.id || index} className="border-b border-gray-700 hover:hover:bg-[#5e1f1f] transition">
                                 {columns.map((col) => {
                                     const value = item[col.key]
 
