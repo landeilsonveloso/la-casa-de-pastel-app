@@ -4,6 +4,7 @@ import axios from "axios"
 import config from "src/config/config"
 import { useCallback, useState } from "react"
 import { useRouter } from "next/navigation"
+import { toast } from "react-toastify"
 
 export default function useUser() {
     const [email, setEmail] = useState("")
@@ -39,6 +40,7 @@ export default function useUser() {
                     .then((res) => {
                         if (res.status === 200) {
                             setDisabledUserButton(false)
+                            toast.success("Login realizado com sucesso!")
                             localStorage.setItem("token", res.data)
                             router.replace("/dashboard")
                             return
@@ -46,20 +48,20 @@ export default function useUser() {
 
                         else if (res.status === 400) {
                             setDisabledUserButton(false)
-                            alert(res.data)
+                            toast.error(res.data)
                             return
                         }
                     })
                     .catch((err) => {
                         if (err.response.status === 400) {
                             setDisabledUserButton(false)
-                            alert(err.response.data)
+                            toast.error(err.response.data)
                             return
                         }
 
                         else if (err.response.status >= 500) {
                             setDisabledUserButton(false)
-                            alert("Erro no servidor, recarregue a página!")
+                            toast.error("Erro no servidor, recarregue a página!")
                             return
                         }
                     })
@@ -75,27 +77,27 @@ export default function useUser() {
                     .then((res) => {
                         if (res.status === 200) {
                             setDisabledUserButton(false)
-                            alert("Pedido de solicitação enviado para seu email!")
+                            toast.info("Pedido de solicitação enviado para seu email!")
                             localStorage.setItem("token", res.data)
                             return
                         }
 
                         else if (res.status === 400) {
                             setDisabledUserButton(false)
-                            alert(res.data)
+                            toast.error(res.data)
                             return
                         }
                     })
                     .catch((err) => {
                         if (err.response.status === 400) {
                             setDisabledUserButton(false)
-                            alert(err.response.data)
+                            toast.error(err.response.data)
                             return
                         }
 
                         else if (err.response.status >= 500) {
                             setDisabledUserButton(false)
-                            alert("Erro no servidor, recarregue a página!")
+                            toast.error("Erro no servidor, recarregue a página!")
                             return
                         }
                     })
@@ -115,6 +117,7 @@ export default function useUser() {
                     .then((res) => {
                         if (res.status === 200) {
                             setDisabledUserButton(false)
+                            toast.success(res.data)
                             localStorage.clear()
                             router.replace("/")
                             return
@@ -122,7 +125,7 @@ export default function useUser() {
 
                         else if (res.status === 400) {
                             setDisabledUserButton(false)
-                            alert(res.data)
+                            toast.error(res.data)
                             return
                         }
 
@@ -135,7 +138,7 @@ export default function useUser() {
                     .catch((err) => {
                         if (err.response.status === 400) {
                             setDisabledUserButton(false)
-                            alert(err.response.data)
+                            toast.error(err.response.data)
                             return
                         }
 
@@ -147,7 +150,7 @@ export default function useUser() {
 
                         else if (err.response.status >= 500) {
                             setDisabledUserButton(false)
-                            alert("Erro no servidor, recarregue a página!")
+                            toast.error("Erro no servidor, recarregue a página!")
                             return
                         }
                     })

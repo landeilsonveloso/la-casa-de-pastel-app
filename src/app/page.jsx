@@ -8,6 +8,7 @@ import Logo from "../components/Logo"
 import Main from "src/containers/Main"
 import { MdEmail, MdLock, MdVisibility, MdVisibilityOff } from "react-icons/md"
 import Navigation from "src/components/Navigation"
+import Spinner from "src/components/Spinner"
 import Title from "src/components/Title"
 import useUser from "src/hooks/useUser"
 import useUtilities from "src/hooks/useUtilities"
@@ -70,8 +71,12 @@ export default function SignInPage() {
                     Esqueceu a senha?
                 </Navigation>
 
-                <Button className="w-full py-2 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-800 transition cursor-pointer"disabled={disabledUserButton}>
-                    Entrar
+                <Button className={`flex justify-center w-full py-2 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-800 transition ${!disabledUserButton ? "cursor-pointer" : "cursor-default"}`} disabled={disabledUserButton}>
+                    {disabledUserButton ?
+                        <Spinner/>
+                    :
+                        <span>Entrar</span>
+                    }
                 </Button>
             </Form>
         </Main>
