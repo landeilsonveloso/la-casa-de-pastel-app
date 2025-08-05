@@ -166,12 +166,8 @@ export default function IngredientsPage() {
                                     Cancelar
                                 </Button>
 
-                                <Button className="flex justify-center w-28 bg-green-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-green-800 transition" disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ?
-                                        <Spinner/>
-                                    :
-                                        <span>Adicionar</span>
-                                    }
+                                <Button className={`flex justify-center w-28 bg-green-600 text-white px-4 py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-green-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
+                                    {disabledIngredientsButton ? <Spinner/> : <>Adicionar</>}
                                 </Button>
                             </Div>
                         </Form>
@@ -273,12 +269,8 @@ export default function IngredientsPage() {
                                     Cancelar
                                 </Button>
 
-                                <Button className="flex justify-center w-20 bg-blue-600 text-white py-2 cursor-pointer rounded hover:bg-blue-800 transition" disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ?
-                                        <Spinner/>
-                                    :
-                                        <span>Salvar</span>
-                                    }
+                                <Button className={`flex justify-center w-20 bg-blue-600 text-white py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
+                                    {disabledIngredientsButton ? <Spinner/> : <>Salvar</>}
                                 </Button>
                             </Div>
                         </Form>
@@ -303,12 +295,8 @@ export default function IngredientsPage() {
                                     Cancelar
                                 </Button>
 
-                                <Button className="flex justify-center w-20 bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ?
-                                        <Spinner/>
-                                    :
-                                        <span>Excluir</span>
-                                    }
+                                <Button className={`flex justify-center w-20 bg-red-600 text-white py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-red-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
+                                    {disabledIngredientsButton ? <Spinner/> : <>Excluir</>}
                                 </Button>
                             </Div>
                         </Form>

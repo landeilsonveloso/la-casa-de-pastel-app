@@ -108,7 +108,13 @@ export default function useUser() {
         setDisabledUserButton(true)
 
         try {
-            const res = await axios.put(redefinePasswordUrl, {password, confirmPassword}, {headers: {"Accept": "application/json", "Content-Type": "application/json", "Authorization": localStorage.getItem("token")}})
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+
+            const res = await axios.put(redefinePasswordUrl, {password, confirmPassword}, {headers})
 
             if (res.status === 200) {
                 toast.success(res.data)

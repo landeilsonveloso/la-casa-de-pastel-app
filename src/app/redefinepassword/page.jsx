@@ -77,7 +77,7 @@ export default function RedefinePasswordPage() {
                         }
                     </Div>
 
-                    <Button className={`flex justify-center w-full py-2 rounded-lg bg-blue-600 text-white font-bold transition ${!disabledUserButton ? "hover:bg-blue-800 cursor-pointer" : "cursor-default opacity-70"}`} disabled={disabledUserButton}>
+                    <Button className={`flex justify-center w-full py-2 rounded-lg bg-blue-600 text-white font-bold transition ${disabledUserButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledUserButton}>
                         {disabledUserButton ? <Spinner/> : <>Redefinir</>}
                     </Button>
                 </Form>

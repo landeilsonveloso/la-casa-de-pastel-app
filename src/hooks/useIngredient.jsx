@@ -36,36 +36,39 @@ export default function useIngredient() {
     ]
     
     const readIngredients = useCallback(async () => {
-        await axios
-                    .get(readIngredientsUrl, {headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": localStorage.getItem("token")
-                    }})
-                    .then((res) => {
-                        if (res.status === 200) {
-                            setIngredients(res.data)
-                            return
-                        }
-                        
-                        else if (res.status === 401) {
-                            localStorage.clear()
-                            router.replace("/")
-                            return
-                        }
-                    })
-                    .catch((err) => {
-                        if (err.response.status === 401) {
-                            localStorage.clear()
-                            router.replace("/")
-                            return
-                        }
+        try {
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
 
-                        else if (err.response.status >= 500) {
-                            toast.error("Erro no servidor, recarregue a página!")
-                            return
-                        }
-                    })
+            const res = await axios.get(readIngredientsUrl, {headers})
+
+            if (res.status === 200) {
+                setIngredients(res.data)
+            }
+                        
+            else if (res.status === 401) {
+                localStorage.clear()
+                router.replace("/")
+            }
+        }
+        
+        catch (err) {
+            if (err.response?.status === 401) {
+                localStorage.clear()
+                router.replace("/")
+            }
+
+            else if (err.response?.status >= 500) {
+                toast.error("Erro no servidor, recarregue a página!")
+            }
+
+            else {
+                toast.error("Erro inespirado.")
+            }
+        }
     }, [readIngredientsUrl, router])
 
     const createIngredient = useCallback(async (e) => {
@@ -73,52 +76,53 @@ export default function useIngredient() {
 
         setDisabledIngredientsButton(true)
         
-        await axios
-                    .post(createIngredientUrl, {description, quantity, unitMeasure, value}, {headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": localStorage.getItem("token")
-                    }})
-                    .then((res) => {
-                        if (res.status === 201) {
-                            setDisabledIngredientsButton(false)
-                            toast.success(res.data)
-                            closingModal()
-                            readIngredients()
-                            return
-                        }
+        try {
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
 
-                        else if (res.status === 400) {
-                            setDisabledIngredientsButton(false)
-                            toast.error(res.data)
-                            return
-                        }
+            const res = await axios.post(createIngredientUrl, {description, quantity, unitMeasure, value}, {headers})
 
-                        else if (res.status === 401) {
-                            localStorage.clear()
-                            router.replace("/")
-                            return
-                        }
-                    })
-                    .catch((err) => {
-                        if (err.response.status === 400) {
-                            setDisabledIngredientsButton(false)
-                            toast.error(err.response.data)
-                            return
-                        }
+            if (res.status === 201) {
+                toast.success(res.data)
+                closingModal()
+                readIngredients()
+            }
 
-                        else if (err.response.status === 401) {
-                            localStorage.clear()
-                            router.replace("/")
-                            return
-                       }
+            else if (res.status === 400) {
+                toast.error(res.data)
+            }
+                        
+            else if (res.status === 401) {
+                localStorage.clear()
+                router.replace("/")
+            }
+        }
+        
+        catch (err) {
+            if (err.response?.status === 400) {
+                toast.error(err.response.data)
+            }
 
-                        else if (err.response.status >= 500) {
-                            setDisabledIngredientsButton(false)
-                            toast.error("Erro no servidor, recarregue a página!")
-                            return
-                        }
-                    })
+            else if (err.response?.status === 401) {
+                localStorage.clear()
+                router.replace("/")
+            }
+
+            else if (err.response?.status >= 500) {
+                toast.error("Erro no servidor, recarregue a página!")
+            }
+
+            else {
+                toast.error("Erro inesperado.")
+            }
+        }
+
+        finally {
+            setDisabledIngredientsButton(false)
+        }
     }, [createIngredientUrl, description, quantity, unitMeasure, value, closingModal, readIngredients, router])
 
     const updateIngredient = useCallback(async (e) => {
@@ -126,52 +130,53 @@ export default function useIngredient() {
 
         setDisabledIngredientsButton(true)
 
-        await axios
-                    .put(updateIngredientUrl, {description, quantity, unitMeasure, value}, {headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": localStorage.getItem("token")
-                    }})
-                    .then((res) => {
-                        if (res.status === 200) {
-                            setDisabledIngredientsButton(false)
-                            toast.success(res.data)
-                            closingModal()
-                            readIngredients()
-                            return
-                        }
+        try {
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
 
-                        else if (res.status === 400) {
-                            setDisabledIngredientsButton(false)
-                            toast.error(res.data)
-                            return
-                        }
+            const res = await axios.put(updateIngredientUrl, {description, quantity, unitMeasure, value}, {headers})
 
-                        else if (res.status === 401) {
-                            localStorage.clear()
-                            router.replace("/")
-                            return
-                        }
-                    })
-                    .catch((err) => {
-                        if (err.response.status === 400) {
-                            setDisabledIngredientsButton(false)
-                            toast.error(err.response.data)
-                            return
-                        }
+            if (res.status === 200) {
+                toast.success(res.data)
+                closingModal()
+                readIngredients()
+            }
 
-                        else if (err.response.status === 401) {
-                            localStorage.clear()
-                            router.replace("/")
-                            return
-                        }
+            else if (res.status === 400) {
+                toast.error(res.data)
+            }
+                        
+            else if (res.status === 401) {
+                localStorage.clear()
+                router.replace("/")
+            }
+        }
+        
+        catch (err) {
+            if (err.response?.status === 400) {
+                toast.error(err.response.data)
+            }
 
-                        else if (err.response.status >= 500) {
-                            setDisabledIngredientsButton(false)
-                            toast.error("Erro no servidor, recarregue a página!")
-                            return
-                        }
-                    })
+            else if (err.response?.status === 401) {
+                localStorage.clear()
+                router.replace("/")
+            }
+
+            else if (err.response?.status >= 500) {
+                toast.error("Erro no servidor, recarregue a página!")
+            }
+
+            else {
+                toast.error("Erro inesperado.")
+            }
+        }
+
+        finally {
+            setDisabledIngredientsButton(false)
+        }
     }, [updateIngredientUrl, description, quantity, unitMeasure, value, closingModal, readIngredients, router])
 
     const deleteIngredient = useCallback(async (e) => {
@@ -179,41 +184,45 @@ export default function useIngredient() {
 
         setDisabledIngredientsButton(true)
 
-        await axios
-                    .delete(deleteIngredientUrl, {headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": localStorage.getItem("token")
-                    }})
-                    .then((res) => {
-                        if (res.status === 200) {
-                            setDisabledIngredientsButton(false)
-                            toast.success(res.data)
-                            closingModal()
-                            readIngredients()
-                            return
-                        }
+        try {
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
 
-                        else if (res.status === 401) {
-                            localStorage.clear()
-                            router.replace("/")
-                            return
-                        }
-                    })
-                    .catch((err) => {
-                        if (err.response.status === 401) {
-                            localStorage.clear()
-                            router.replace("/")
-                            return
-                        }
+            const res = await axios.delete(deleteIngredientUrl, {headers})
 
-                        else if (err.response.status >= 500) {
-                            setDisabledIngredientsButton(false)
-                            toast.error("Erro no servidor, recarregue a página!")
-                            return
-                        }
-                    })
-                    
+            if (res.status === 200) {
+                toast.success(res.data)
+                closingModal()
+                readIngredients()
+            }
+
+            else if (res.status === 401) {
+                localStorage.clear()
+                router.replace("/")
+            }
+        }
+        
+        catch (err) {
+            if (err.response?.status === 401) {
+                localStorage.clear()
+                router.replace("/")
+            }
+
+            else if (err.response?.status >= 500) {
+                toast.error("Erro no servidor, recarregue a página!")
+            }
+
+            else {
+                toast.error("Erro inesperado.")
+            }
+        }
+
+        finally {
+            setDisabledIngredientsButton(false)
+        }
     }, [deleteIngredientUrl, closingModal, readIngredients, router])
 
     useEffect(() => {
