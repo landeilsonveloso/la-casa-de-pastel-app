@@ -37,53 +37,49 @@ export default function RedefinePasswordPage() {
 
                     <Title>Redefinir Senha</Title>
 
-                <Div className="flex items-center w-full mb-4 p-2 bg-black/30 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
-                    <MdLock size={24}/>
+                    <Div className="flex items-center w-full mb-4 p-2 bg-black/30 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <MdLock size={24}/>
 
-                    <Input
-                        className="w-full px-2 text-white outline-none"
-                        id="password"
-                        name="password"
-                        type={passwordVisibility ? "text" : "password"}
-                        maxLength={18}
-                        placeholder="Nova senha"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                        <Input
+                            className="w-full px-2 text-white outline-none"
+                            id="password"
+                            name="password"
+                            type={passwordVisibility ? "text" : "password"}
+                            maxLength={18}
+                            placeholder="Nova senha"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
 
-                    {passwordVisibility ? 
-                        <MdVisibility className="cursor-pointer" size={24} onClick={() => setPasswordVisibility(false)}/>
-                    :
-                        <MdVisibilityOff className="cursor-pointer" size={24} onClick={() => setPasswordVisibility(true)}/>
-                    }
-                </Div>
+                        {passwordVisibility ? 
+                            <MdVisibility className="cursor-pointer" size={24} onClick={() => setPasswordVisibility(false)}/>
+                        :
+                            <MdVisibilityOff className="cursor-pointer" size={24} onClick={() => setPasswordVisibility(true)}/>
+                        }
+                    </Div>
 
-                <Div className="flex items-center w-full mb-4 p-2 bg-black/30 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
-                    <MdLock size={24}/>
+                    <Div className="flex items-center w-full mb-4 p-2 bg-black/30 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <MdLock size={24}/>
 
-                    <Input
-                        className="w-full px-2 text-white outline-none"
-                        id="password"
-                        name="password"
-                        type={passwordConfirmVisibility ? "text" : "password"}
-                        maxLength={18}
-                        placeholder="Confirmar nova senha"
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
+                        <Input
+                            className="w-full px-2 text-white outline-none"
+                            id="password"
+                            name="password"
+                            type={passwordConfirmVisibility ? "text" : "password"}
+                            maxLength={18}
+                            placeholder="Confirmar nova senha"
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
 
-                    {passwordConfirmVisibility ? 
-                        <MdVisibility className="cursor-pointer" size={24} onClick={() => setConfirmPasswordVisibility(false)}/>
-                    :
-                        <MdVisibilityOff className="cursor-pointer" size={24} onClick={() => setConfirmPasswordVisibility(true)}/>
-                    }
-                </Div>
+                        {passwordConfirmVisibility ? 
+                            <MdVisibility className="cursor-pointer" size={24} onClick={() => setConfirmPasswordVisibility(false)}/>
+                        :
+                            <MdVisibilityOff className="cursor-pointer" size={24} onClick={() => setConfirmPasswordVisibility(true)}/>
+                        }
+                    </Div>
 
-                <Button className={`flex justify-center w-full py-2 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-800 transition ${!disabledUserButton ? "cursor-pointer" : "cursor-default"}`} disabled={disabledUserButton}>
-                    {disabledUserButton ?
-                        <Spinner/>
-                    :
-                        <span>Redefinir</span>
-                    }
-                </Button>
+                    <Button className={`flex justify-center w-full py-2 rounded-lg bg-blue-600 text-white font-bold transition ${!disabledUserButton ? "hover:bg-blue-800 cursor-pointer" : "cursor-default opacity-70"}`} disabled={disabledUserButton}>
+                        {disabledUserButton ? <Spinner/> : <>Redefinir</>}
+                    </Button>
                 </Form>
             </Main>
         </AuthProvider>
