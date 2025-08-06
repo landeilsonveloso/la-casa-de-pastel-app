@@ -6,41 +6,48 @@ import Div from "src/containers/Div"
 import Form from "src/components/Form"
 import Input from "src/components/Input"
 import Loading from "src/components/Loading"
-import { MdAdd, MdCategory, MdClose, MdMonetizationOn, MdNotes, MdNumbers } from "react-icons/md"
+import { MdAdd, MdCategory, MdClose, MdMoneyOff, MdNotes } from "react-icons/md"
 import Modal from "src/components/Modal"
 import Option from "src/components/Option"
 import Select from "src/components/Select"
 import Spinner from "src/components/Spinner"
 import Table from "src/components/Table"
 import Title from "src/components/Title"
-import useIngredient from "src/hooks/useIngredient"
+import useOutflow from "src/hooks/useOutflow"
+import useUtilities from "src/hooks/useUtilities"
 
-export default function IngredientsPage() {
+export default function OutflowsPage() {
     const {
         description,
         setDescription,
-        quantity,
-        setQuantity,
-        unitMeasure,
-        setUnitMeasure,
+        date,
+        setDate,
+        method,
+        setMethod,
         value,
         setValue,
         filtered,
-        search,
-        setSearch,
-        disabledIngredientsButton,
+        filterType,
+        setFilterType,
+        selectedDate,
+        setSelectedDate,
+        disabledOutflowsButton,
         loading,
         isOpen,
         tag,
         columns,
-        createIngredient,
-        updateIngredient,
-        deleteIngredient,
+        createOutflow,
+        updateOutflow,
+        deleteOutflow,
         handleAdd,
         handleEdit,
         handleDelete,
         handleCancel
-    } = useIngredient()
+    } = useOutflow()
+
+    const {
+        formatToBRL
+    } = useUtilities()
 
     if (loading) {
         return <Loading/>
@@ -50,26 +57,47 @@ export default function IngredientsPage() {
         <AuthProvider>
             <Div className="text-white min-h-screen bg-black">
                 <Div className="flex justify-between items-center mb-6">
-                    <Title>Ingredientes</Title>
+                    <Title>Saída: {formatToBRL(filtered.reduce((sum, item) => sum + parseFloat(item.value), 0))}</Title>
 
                     <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-800 text-white px-4 py-2 cursor-pointer rounded-md transition" onClick={handleAdd}>
                         <MdAdd size={20}/>
-                        Novo Ingrediente
+                        Nova Saída
                     </Button>
                 </Div>
 
-                <Input
-                    className="w-full p-3 mb-16 rounded-md bg-white text-black focus:outline-none"
-                    id="search"
-                    name="search"
-                    type="search"
-                    placeholder="Busque por um ingrediente..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+                <Div className="w-full flex items-center justify-center gap-4 mb-8">
+                    <Title>Filtrar</Title>
+                    
+                    <Select className="w-1/5 bg-black border rounded px-4 py-[10px] mb-4" value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+                        <Option value="">
+                            
+                        </Option>
+
+                        <Option value="day">
+                            Dia
+                        </Option>
+
+                        <Option value="week">
+                            Semana
+                        </Option>
+
+                        <Option value="month">
+                            Mês
+                        </Option>
+                    </Select>
+
+                    <Input
+                        className="border rounded px-4 py-2 mb-4 custom-date-icon"
+                        id="date"
+                        name="date"
+                        type="date"
+                        value={selectedDate ? selectedDate.toISOString().split("T")[0] : ""}
+                        onChange={(e) => {e.target.value ? setSelectedDate(new Date(e.target.value)) : setSelectedDate(null)}}
+                    />
+                </Div>
                 
                 <Table
-                    name="ingredients"
+                    name="outflows"
                     columns={columns}
                     data={filtered}
                     onEdit={handleEdit}
@@ -78,12 +106,12 @@ export default function IngredientsPage() {
 
                 {isOpen && tag === "Create" ? (
                     <Modal>
-                        <Form onSubimit={createIngredient}>
+                        <Form onSubimit={createOutflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
                             </Div>
 
-                            <Title>Novo Ingrediente</Title>
+                            <Title>Nova Saída</Title>
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdNotes className="text-gray-600 text-xl mr-2"/>
@@ -93,6 +121,7 @@ export default function IngredientsPage() {
                                     id="description"
                                     name="description"
                                     type="text"
+                                    minLength={3}
                                     maxLength={60}
                                     placeholder="Descrição"
                                     onChange={(e) => setDescription(e.target.value)}
@@ -100,55 +129,39 @@ export default function IngredientsPage() {
                             </Div>
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdNumbers className="text-gray-600 text-xl mr-2"/>
-
                                 <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="quantity"
-                                    name="quantity"
-                                    type="number"
-                                    placeholder="Quantidade"
-                                    step={0.01}
-                                    onChange={(e) => setQuantity(e.target.value)}
+                                    className="w-full px-2 outline-none bg-transparent"
+                                    id="date"
+                                    name="date"
+                                    type="date"
+                                    onChange={(e) => setDate(e.target.value)}
                                 />
-                            </Div>
+                            </Div>                    
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none" onChange={(e) => setUnitMeasure(e.target.value)}>
+                                <Select className="w-full px-2 outline-none bg-transparent" onChange={(e) => setMethod(e.target.value)}>
                                     <Option value="">
                                         
                                     </Option>
 
-                                    <Option value="un">
-                                        UN
+                                    <Option value="Cartão">
+                                        Cartão
                                     </Option>
 
-                                    <Option value="mg">
-                                        MG
+                                    <Option value="Espécie">
+                                        Espécie
                                     </Option>
 
-                                    <Option value="g">
-                                        G
-                                    </Option>
-
-                                    <Option value="kg">
-                                        KG
-                                    </Option>
-
-                                    <Option value="ml">
-                                        ML
-                                    </Option>
-
-                                    <Option value="l">
-                                        L
+                                    <Option value="Pix">
+                                        Pix
                                     </Option>
                                 </Select>
                             </Div>
 
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                <MdMoneyOff className="text-gray-600 text-xl mr-2"/>
 
                                 <Input
                                     className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
@@ -162,12 +175,12 @@ export default function IngredientsPage() {
                             </Div>
 
                             <Div className="flex justify-end gap-3">
-                                <Button className="w-24 bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
+                                <Button className="bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-28 bg-green-600 text-white px-4 py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-green-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ? <Spinner/> : <>Adicionar</>}
+                                <Button className={`flex justify-center w-28 bg-green-600 text-white py-2 rounded transition ${disabledOutflowsButton ? "cursor-default opacity-70" : "hover:bg-green-800 cursor-pointer"}`} disabled={disabledOutflowsButton}>
+                                    {disabledOutflowsButton ? <Spinner/> : <>Adicionar</>}
                                 </Button>
                             </Div>
                         </Form>
@@ -178,12 +191,12 @@ export default function IngredientsPage() {
 
                 {isOpen && tag === "Edit" ? (
                     <Modal>
-                        <Form onSubimit={updateIngredient}>
+                        <Form onSubimit={updateOutflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
                             </Div>
 
-                            <Title>Editar Ingrediente</Title>
+                            <Title>Editar Saída</Title>
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdNotes className="text-gray-600 text-xl mr-2"/>
@@ -193,6 +206,7 @@ export default function IngredientsPage() {
                                     id="description"
                                     name="description"
                                     type="text"
+                                    minLength={3}
                                     maxLength={60}
                                     placeholder="Descrição"
                                     value={description}
@@ -200,57 +214,41 @@ export default function IngredientsPage() {
                                 />
                             </Div>
 
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdNumbers className="text-gray-600 text-xl mr-2"/>
-
+                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">                                
                                 <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="quantity"
-                                    name="quantity"
-                                    type="number"
-                                    placeholder="Quantidade"
-                                    step={0.01}
-                                    value={quantity}
-                                    onChange={(e) => setQuantity(e.target.value)}
+                                    className="w-full px-2 outline-none bg-transparent"
+                                    id="date"
+                                    name="date"
+                                    type="date"
+                                    value={date}
+                                    onChange={(e) => setDate(e.target.value)}
                                 />
                             </Div>
 
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">                                
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none" value={unitMeasure} onChange={(e) => setUnitMeasure(e.target.value)}>
+                                <Select className="w-full px-2 outline-none bg-transparent" value={method} onChange={(e) => setMethod(e.target.value)}>
                                     <Option value="">
                                         
                                     </Option>
 
-                                    <Option value="un">
-                                        UN
+                                    <Option value="Cartão">
+                                        Cartão
                                     </Option>
 
-                                    <Option value="mg">
-                                        MG
+                                    <Option value="Espécie">
+                                        Espécie
                                     </Option>
 
-                                    <Option value="g">
-                                        G
+                                    <Option value="Pix">
+                                        Pix
                                     </Option>
-
-                                    <Option value="kg">
-                                        KG
-                                    </Option>
-
-                                    <Option value="ml">
-                                        ML
-                                    </Option>
-
-                                    <Option value="l">
-                                        L
-                                    </Option>
-                                </Select>
+                                </Select>                         
                             </Div>
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+                                <MdMoneyOff className="text-gray-600 text-xl mr-2"/>
 
                                 <Input
                                     className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
@@ -265,12 +263,12 @@ export default function IngredientsPage() {
                             </Div>
 
                             <Div className="flex justify-end gap-3">
-                                <Button className="w-24 bg-red-600 text-white py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
+                                <Button className="bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-20 bg-blue-600 text-white py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ? <Spinner/> : <>Salvar</>}
+                                <Button className={`flex justify-center w-20 bg-blue-600 text-white py-2 rounded transition ${disabledOutflowsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledOutflowsButton}>
+                                    {disabledOutflowsButton ? <Spinner/> : <>Salvar</>}
                                 </Button>
                             </Div>
                         </Form>
@@ -281,22 +279,22 @@ export default function IngredientsPage() {
 
                 {isOpen && tag === "Delete" ? (
                     <Modal>
-                        <Form className="flex flex-col" onSubimit={deleteIngredient}>
+                        <Form className="flex flex-col" onSubimit={deleteOutflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
                             </Div>
 
                             <Div className="text-center text-xl mt-4 mb-8">
-                                Deseja excluir esse ingrediente?
+                                Deseja excluir essa saída?
                             </Div>
 
                              <Div className="flex justify-end gap-3">
-                                <Button className="w-24 bg-gray-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-gray-800 transition" type="button" onClick={handleCancel}>
+                                <Button className="bg-gray-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-gray-800 transition" type="button" onClick={handleCancel}>
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-20 bg-red-600 text-white py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-red-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ? <Spinner/> : <>Excluir</>}
+                                <Button className={`flex justify-center w-20 bg-red-600 text-white py-2 rounded transition ${disabledOutflowsButton ? "cursor-default opacity-70" : "hover:bg-red-800 cursor-pointer"}`} disabled={disabledOutflowsButton}>
+                                    {disabledOutflowsButton ? <Spinner/> : <>Excluir</>}
                                 </Button>
                             </Div>
                         </Form>

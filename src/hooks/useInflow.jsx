@@ -5,17 +5,18 @@ import { useCallback, useEffect, useState } from "react"
 import useModal from "./useModal"
 import { useRouter } from "next/navigation"
 
-export default function useIngredient() {
+export default function useInflow() {
     const [id, setId] = useState(0)
     const [description, setDescription] = useState("")
-    const [quantity, setQuantity] = useState(0)
-    const [unitMeasure, setUnitMeasure] = useState("")
+    const [date, setDate] = useState(new Date())
+    const [method, setMethod] = useState("")
     const [value, setValue] = useState(0)
-    const [ingredients, setIngredients] = useState([])
-    const [filtered, setFiltered] = useState([])
-    const [search, setSearch] = useState("")
-    const [disabledIngredientsButton, setDisabledIngredientsButton] = useState(false)
-    const [loading, setLoading] =useState(true)
+    const [inflows, setInflows] = useState([])
+    const [filtered, setFiltered]  = useState([])
+    const [filterType, setFilterType] = useState("")
+    const [selectedDate, setSelectedDate] = useState(new Date())
+    const [disabledInflowsButton, setDisabledInflowsButton] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const {isOpen, openingModal, closingModal, tag, setTag} = useModal()
 
@@ -23,18 +24,19 @@ export default function useIngredient() {
 
     const apiUrlBase = config.API_URL_BASE
 
-    const readIngredientsUrl = `${apiUrlBase}/ingredients`
-    const createIngredientUrl = `${apiUrlBase}/ingredients`
-    const updateIngredientUrl = `${apiUrlBase}/ingredients/${id}`
-    const deleteIngredientUrl = `${apiUrlBase}/ingredients/${id}`
+    const readInflowsUrl = `${apiUrlBase}/inflows`
+    const createInflowUrl = `${apiUrlBase}/inflows`
+    const updateInflowUrl = `${apiUrlBase}/inflows/${id}`
+    const deleteInflowUrl = `${apiUrlBase}/inflows/${id}`
 
     const columns = [
         {key: "description", label: "Descrição"},
-        {key: "quantityWithUnit", label: "Quantidade"},
+        {key: "date", label: "Data"},
+        {key: "method", label: "Método"},
         {key: "value", label: "Valor"}
     ]
     
-    const readIngredients = useCallback(async () => {
+    const readInflows = useCallback(async () => {
         try {
             const headers = {
                 "Accept": "application/json",
@@ -42,10 +44,10 @@ export default function useIngredient() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.get(readIngredientsUrl, {headers})
+            const res = await axios.get(readInflowsUrl, {headers})
 
             if (res.status === 200) {
-                setIngredients(res.data)
+                setInflows(res.data)
             }
                         
             else if (res.status === 401) {
@@ -68,12 +70,12 @@ export default function useIngredient() {
                 toast.error("Erro inespirado.")
             }
         }
-    }, [readIngredientsUrl, router])
+    }, [readInflowsUrl, router])
 
-    const createIngredient = useCallback(async (e) => {
+    const createInflow = useCallback(async (e) => {
         e.preventDefault()
 
-        setDisabledIngredientsButton(true)
+        setDisabledInflowsButton(true)
         
         try {
             const headers = {
@@ -82,12 +84,12 @@ export default function useIngredient() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.post(createIngredientUrl, {description, quantity, unitMeasure, value}, {headers})
+            const res = await axios.post(createInflowUrl, {description, date, method, value}, {headers})
 
             if (res.status === 201) {
                 toast.success(res.data)
                 closingModal()
-                readIngredients()
+                readInflows()
             }
 
             else if (res.status === 400) {
@@ -120,14 +122,14 @@ export default function useIngredient() {
         }
 
         finally {
-            setDisabledIngredientsButton(false)
+            setDisabledInflowsButton(false)
         }
-    }, [createIngredientUrl, description, quantity, unitMeasure, value, closingModal, readIngredients, router])
+    }, [createInflowUrl, description, date, method, value, closingModal, readInflows, router])
 
-    const updateIngredient = useCallback(async (e) => {
+    const updateInflow = useCallback(async (e) => {
         e.preventDefault()
 
-        setDisabledIngredientsButton(true)
+        setDisabledInflowsButton(true)
 
         try {
             const headers = {
@@ -136,12 +138,12 @@ export default function useIngredient() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.put(updateIngredientUrl, {description, quantity, unitMeasure, value}, {headers})
+            const res = await axios.put(updateInflowUrl, {description, date, method, value}, {headers})
 
             if (res.status === 200) {
                 toast.success(res.data)
                 closingModal()
-                readIngredients()
+                readInflows()
             }
 
             else if (res.status === 400) {
@@ -174,14 +176,14 @@ export default function useIngredient() {
         }
 
         finally {
-            setDisabledIngredientsButton(false)
+            setDisabledInflowsButton(false)
         }
-    }, [updateIngredientUrl, description, quantity, unitMeasure, value, closingModal, readIngredients, router])
+    }, [updateInflowUrl, description, date, method, value, closingModal, readInflows, router])
 
-    const deleteIngredient = useCallback(async (e) => {
+    const deleteInflow = useCallback(async (e) => {
         e.preventDefault()
 
-        setDisabledIngredientsButton(true)
+        setDisabledInflowsButton(true)
 
         try {
             const headers = {
@@ -190,12 +192,12 @@ export default function useIngredient() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.delete(deleteIngredientUrl, {headers})
+            const res = await axios.delete(deleteInflowUrl, {headers})
 
             if (res.status === 200) {
                 toast.success(res.data)
                 closingModal()
-                readIngredients()
+                readInflows()
             }
 
             else if (res.status === 401) {
@@ -220,41 +222,86 @@ export default function useIngredient() {
         }
 
         finally {
-            setDisabledIngredientsButton(false)
+            setDisabledInflowsButton(false)
         }
-    }, [deleteIngredientUrl, closingModal, readIngredients, router])
+    }, [deleteInflowUrl, closingModal, readInflows, router])
 
     useEffect(() => {
         const fetch = async () => {
-            await readIngredients()
+            await readInflows()
             setLoading(false)
         }
 
         fetch()
-    }, [readIngredients])
+    }, [readInflows])
+
+    const filterByDay = useCallback(() => {
+        const selDate = new Date(selectedDate)
+        const selDay = selDate.getUTCDate()
+        const selMonth = selDate.getUTCMonth()
+        const selYear = selDate.getUTCFullYear()
+
+        return inflows.filter(inflow => {
+            const inflowDate = new Date(inflow.date)
+
+            return (
+                inflowDate.getUTCDate() === selDay &&
+                inflowDate.getUTCMonth() === selMonth &&
+                inflowDate.getUTCFullYear() === selYear
+            )
+        })
+    }, [inflows, selectedDate])
+
+    const filterByWeek = useCallback(() => {
+        const date = new Date(selectedDate)
+        const dayOfWeek = date.getUTCDay()
+
+        const startOfWeek = new Date(date)
+        startOfWeek.setUTCDate(date.getUTCDate() - dayOfWeek)
+        startOfWeek.setUTCHours(0, 0, 0, 0)
+
+        const endOfWeek = new Date(startOfWeek)
+        endOfWeek.setUTCDate(startOfWeek.getUTCDate() + 6)
+        endOfWeek.setUTCHours(23, 59, 59, 999)
+
+        return inflows.filter(inflow => {
+            const inflowDate = new Date(inflow.date)
+            return inflowDate >= startOfWeek && inflowDate <= endOfWeek
+        })
+    }, [inflows, selectedDate])
+    
+    const filterByMonth = useCallback(() => {
+        const selMonth = selectedDate.getUTCMonth()
+        const selYear = selectedDate.getUTCFullYear()
+
+        return inflows.filter(inflow => {
+            const inflowDate = new Date(inflow.date)
+            return (
+                inflowDate.getUTCMonth() === selMonth &&
+                inflowDate.getUTCFullYear() === selYear
+            )
+        })
+    }, [inflows, selectedDate])
+
+    const filterInflows = useCallback(() => {
+        switch (filterType) {
+            case "day":
+                return filterByDay()
+
+            case "week":
+                return filterByWeek()
+
+            case 'month':
+                return filterByMonth()
+
+            default:
+                return inflows
+        }
+    }, [filterType, inflows, filterByDay, filterByWeek, filterByMonth])
 
     useEffect(() => {
-        const term = search.trim().toLowerCase()
-
-        if (!term) {
-            const sorted = [...ingredients].sort((a, b) =>
-                a.description.localeCompare(b.description, undefined, {numeric: true, sensitivity: "base"})
-            )
-
-            setFiltered(sorted)
-            return
-        }
-
-        const results = ingredients.filter((item) =>
-            item.description.toLowerCase().includes(term)
-        )
-
-        const sorted = results.sort((a, b) =>
-            a.description.localeCompare(b.description, undefined, {numeric: true, sensitivity: "base"})
-        )
-
-        setFiltered(sorted)
-    }, [search, ingredients])
+        setFiltered(filterInflows())
+    }, [filterInflows])
 
     const handleAdd = useCallback(() => {
         setTag("Create")
@@ -266,8 +313,8 @@ export default function useIngredient() {
         openingModal()
         setId(item.id)
         setDescription(item.description)
-        setQuantity(item.quantity)
-        setUnitMeasure(item.unitMeasure)
+        setDate(item.date)
+        setMethod(item.method)
         setValue(item.value)
     }, [openingModal])
 
@@ -284,23 +331,27 @@ export default function useIngredient() {
     return {
         description,
         setDescription,
-        quantity,
-        setQuantity,
-        unitMeasure,
-        setUnitMeasure,
+        date,
+        setDate,
+        method,
+        setMethod,
         value,
         setValue,
+        inflows,
         filtered,
-        search,
-        setSearch,
-        disabledIngredientsButton,
+        selectedDate,
+        filterType,
+        setFilterType,
+        selectedDate,
+        setSelectedDate,
+        disabledInflowsButton,
         loading,
         isOpen,
         tag,
         columns,
-        createIngredient,
-        updateIngredient,
-        deleteIngredient,
+        createInflow,
+        updateInflow,
+        deleteInflow,
         handleAdd,
         handleEdit,
         handleDelete,
