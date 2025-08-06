@@ -5,16 +5,16 @@ import { useCallback, useEffect, useState } from "react"
 import useModal from "./useModal"
 import { useRouter } from "next/navigation"
 
-export default function useIngredient() {
+export default function useItem() {
     const [id, setId] = useState(0)
     const [description, setDescription] = useState("")
     const [quantity, setQuantity] = useState(0)
     const [unitMeasure, setUnitMeasure] = useState("")
     const [value, setValue] = useState(0)
-    const [ingredients, setIngredients] = useState([])
+    const [items, setItems] = useState([])
     const [filtered, setFiltered] = useState([])
     const [search, setSearch] = useState("")
-    const [disabledIngredientsButton, setDisabledIngredientsButton] = useState(false)
+    const [disabledItemsButton, setDisabledItemsButton] = useState(false)
     const [loading, setLoading] =useState(true)
 
     const {isOpen, openingModal, closingModal, tag, setTag} = useModal()
@@ -23,10 +23,10 @@ export default function useIngredient() {
 
     const apiUrlBase = config.API_URL_BASE
 
-    const readIngredientsUrl = `${apiUrlBase}/ingredients`
-    const createIngredientUrl = `${apiUrlBase}/ingredients`
-    const updateIngredientUrl = `${apiUrlBase}/ingredients/${id}`
-    const deleteIngredientUrl = `${apiUrlBase}/ingredients/${id}`
+    const readItemsUrl = `${apiUrlBase}/items`
+    const createItemUrl = `${apiUrlBase}/items`
+    const updateItemUrl = `${apiUrlBase}/items/${id}`
+    const deleteItemUrl = `${apiUrlBase}/items/${id}`
 
     const columns = [
         {key: "description", label: "Descrição"},
@@ -34,7 +34,7 @@ export default function useIngredient() {
         {key: "value", label: "Valor"}
     ]
     
-    const readIngredients = useCallback(async () => {
+    const readItems = useCallback(async () => {
         try {
             const headers = {
                 "Accept": "application/json",
@@ -42,10 +42,10 @@ export default function useIngredient() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.get(readIngredientsUrl, {headers})
+            const res = await axios.get(readItemsUrl, {headers})
 
             if (res.status === 200) {
-                setIngredients(res.data)
+                setItems(res.data)
             }
                         
             else if (res.status === 401) {
@@ -68,12 +68,12 @@ export default function useIngredient() {
                 toast.error("Erro inespirado.")
             }
         }
-    }, [readIngredientsUrl, router])
+    }, [readItemsUrl, router])
 
-    const createIngredient = useCallback(async (e) => {
+    const createItem = useCallback(async (e) => {
         e.preventDefault()
 
-        setDisabledIngredientsButton(true)
+        setDisabledItemsButton(true)
         
         try {
             const headers = {
@@ -82,12 +82,12 @@ export default function useIngredient() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.post(createIngredientUrl, {description, quantity, unitMeasure, value}, {headers})
+            const res = await axios.post(createItemUrl, {description, quantity, unitMeasure, value}, {headers})
 
             if (res.status === 201) {
                 toast.success(res.data)
                 closingModal()
-                readIngredients()
+                readItems()
             }
 
             else if (res.status === 400) {
@@ -120,14 +120,14 @@ export default function useIngredient() {
         }
 
         finally {
-            setDisabledIngredientsButton(false)
+            setDisabledItemsButton(false)
         }
-    }, [createIngredientUrl, description, quantity, unitMeasure, value, closingModal, readIngredients, router])
+    }, [createItemUrl, description, quantity, unitMeasure, value, closingModal, readItems, router])
 
-    const updateIngredient = useCallback(async (e) => {
+    const updateItem = useCallback(async (e) => {
         e.preventDefault()
 
-        setDisabledIngredientsButton(true)
+        setDisabledItemsButton(true)
 
         try {
             const headers = {
@@ -136,12 +136,12 @@ export default function useIngredient() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.put(updateIngredientUrl, {description, quantity, unitMeasure, value}, {headers})
+            const res = await axios.put(updateItemUrl, {description, quantity, unitMeasure, value}, {headers})
 
             if (res.status === 200) {
                 toast.success(res.data)
                 closingModal()
-                readIngredients()
+                readItems()
             }
 
             else if (res.status === 400) {
@@ -174,14 +174,14 @@ export default function useIngredient() {
         }
 
         finally {
-            setDisabledIngredientsButton(false)
+            setDisabledItemsButton(false)
         }
-    }, [updateIngredientUrl, description, quantity, unitMeasure, value, closingModal, readIngredients, router])
+    }, [updateItemUrl, description, quantity, unitMeasure, value, closingModal, readItems, router])
 
-    const deleteIngredient = useCallback(async (e) => {
+    const deleteItem = useCallback(async (e) => {
         e.preventDefault()
 
-        setDisabledIngredientsButton(true)
+        setDisabledItemsButton(true)
 
         try {
             const headers = {
@@ -190,12 +190,12 @@ export default function useIngredient() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.delete(deleteIngredientUrl, {headers})
+            const res = await axios.delete(deleteItemUrl, {headers})
 
             if (res.status === 200) {
                 toast.success(res.data)
                 closingModal()
-                readIngredients()
+                readItems()
             }
 
             else if (res.status === 401) {
@@ -220,24 +220,24 @@ export default function useIngredient() {
         }
 
         finally {
-            setDisabledIngredientsButton(false)
+            setDisabledItemsButton(false)
         }
-    }, [deleteIngredientUrl, closingModal, readIngredients, router])
+    }, [deleteItemUrl, closingModal, readItems, router])
 
     useEffect(() => {
         const fetch = async () => {
-            await readIngredients()
+            await readItems()
             setLoading(false)
         }
 
         fetch()
-    }, [readIngredients])
+    }, [readItems])
 
     useEffect(() => {
         const term = search.trim().toLowerCase()
 
         if (!term) {
-            const sorted = [...ingredients].sort((a, b) =>
+            const sorted = [...items].sort((a, b) =>
                 a.description.localeCompare(b.description, undefined, {numeric: true, sensitivity: "base"})
             )
 
@@ -245,7 +245,7 @@ export default function useIngredient() {
             return
         }
 
-        const results = ingredients.filter((item) =>
+        const results = items.filter((item) =>
             item.description.toLowerCase().includes(term)
         )
 
@@ -254,7 +254,7 @@ export default function useIngredient() {
         )
 
         setFiltered(sorted)
-    }, [search, ingredients])
+    }, [search, items])
 
     const handleAdd = useCallback(() => {
         setTag("Create")
@@ -293,14 +293,14 @@ export default function useIngredient() {
         filtered,
         search,
         setSearch,
-        disabledIngredientsButton,
+        disabledItemsButton,
         loading,
         isOpen,
         tag,
         columns,
-        createIngredient,
-        updateIngredient,
-        deleteIngredient,
+        createItem,
+        updateItem,
+        deleteItem,
         handleAdd,
         handleEdit,
         handleDelete,

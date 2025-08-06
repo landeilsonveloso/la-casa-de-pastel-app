@@ -13,9 +13,9 @@ import Select from "src/components/Select"
 import Spinner from "src/components/Spinner"
 import Table from "src/components/Table"
 import Title from "src/components/Title"
-import useIngredient from "src/hooks/useIngredient"
+import useItem from "src/hooks/useItem"
 
-export default function IngredientsPage() {
+export default function ItemsPage() {
     const {
         description,
         setDescription,
@@ -28,19 +28,19 @@ export default function IngredientsPage() {
         filtered,
         search,
         setSearch,
-        disabledIngredientsButton,
+        disabledItemsButton,
         loading,
         isOpen,
         tag,
         columns,
-        createIngredient,
-        updateIngredient,
-        deleteIngredient,
+        createItem,
+        updateItem,
+        deleteItem,
         handleAdd,
         handleEdit,
         handleDelete,
         handleCancel
-    } = useIngredient()
+    } = useItem()
 
     if (loading) {
         return <Loading/>
@@ -50,11 +50,11 @@ export default function IngredientsPage() {
         <AuthProvider>
             <Div className="text-white min-h-screen bg-black">
                 <Div className="flex justify-between items-center mb-6">
-                    <Title>Ingredientes</Title>
+                    <Title>Estoque</Title>
 
                     <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-800 text-white px-4 py-2 cursor-pointer rounded-md transition" onClick={handleAdd}>
                         <MdAdd size={20}/>
-                        Novo Ingrediente
+                        Novo Item
                     </Button>
                 </Div>
 
@@ -63,13 +63,13 @@ export default function IngredientsPage() {
                     id="search"
                     name="search"
                     type="search"
-                    placeholder="Busque por um ingrediente..."
+                    placeholder="Busque por um item..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
                 
                 <Table
-                    name="ingredients"
+                    name="items"
                     columns={columns}
                     data={filtered}
                     onEdit={handleEdit}
@@ -78,12 +78,12 @@ export default function IngredientsPage() {
 
                 {isOpen && tag === "Create" ? (
                     <Modal>
-                        <Form onSubimit={createIngredient}>
+                        <Form onSubimit={createItem}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
                             </Div>
 
-                            <Title>Novo Ingrediente</Title>
+                            <Title>Novo Item</Title>
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdNotes className="text-gray-600 text-xl mr-2"/>
@@ -166,8 +166,8 @@ export default function IngredientsPage() {
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-28 bg-green-600 text-white px-4 py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-green-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ? <Spinner/> : <>Adicionar</>}
+                                <Button className={`flex justify-center w-28 bg-green-600 text-white px-4 py-2 rounded transition ${disabledItemsButton ? "cursor-default opacity-70" : "hover:bg-green-800 cursor-pointer"}`} disabled={disabledItemsButton}>
+                                    {disabledItemsButton ? <Spinner/> : <>Adicionar</>}
                                 </Button>
                             </Div>
                         </Form>
@@ -178,12 +178,12 @@ export default function IngredientsPage() {
 
                 {isOpen && tag === "Edit" ? (
                     <Modal>
-                        <Form onSubimit={updateIngredient}>
+                        <Form onSubimit={updateItem}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
                             </Div>
 
-                            <Title>Editar Ingrediente</Title>
+                            <Title>Editar Item</Title>
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdNotes className="text-gray-600 text-xl mr-2"/>
@@ -269,8 +269,8 @@ export default function IngredientsPage() {
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-20 bg-blue-600 text-white py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ? <Spinner/> : <>Salvar</>}
+                                <Button className={`flex justify-center w-20 bg-blue-600 text-white py-2 rounded transition ${disabledItemsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledItemsButton}>
+                                    {disabledItemsButton ? <Spinner/> : <>Salvar</>}
                                 </Button>
                             </Div>
                         </Form>
@@ -281,13 +281,13 @@ export default function IngredientsPage() {
 
                 {isOpen && tag === "Delete" ? (
                     <Modal>
-                        <Form className="flex flex-col" onSubimit={deleteIngredient}>
+                        <Form className="flex flex-col" onSubimit={deleteItem}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
                             </Div>
 
                             <Div className="text-center text-xl mt-4 mb-8">
-                                Deseja excluir esse ingrediente?
+                                Deseja excluir esse item?
                             </Div>
 
                              <Div className="flex justify-end gap-3">
@@ -295,8 +295,8 @@ export default function IngredientsPage() {
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-20 bg-red-600 text-white py-2 rounded transition ${disabledIngredientsButton ? "cursor-default opacity-70" : "hover:bg-red-800 cursor-pointer"}`} disabled={disabledIngredientsButton}>
-                                    {disabledIngredientsButton ? <Spinner/> : <>Excluir</>}
+                                <Button className={`flex justify-center w-20 bg-red-600 text-white py-2 rounded transition ${disabledItemsButton ? "cursor-default opacity-70" : "hover:bg-red-800 cursor-pointer"}`} disabled={disabledItemsButton}>
+                                    {disabledItemsButton ? <Spinner/> : <>Excluir</>}
                                 </Button>
                             </Div>
                         </Form>
