@@ -1,4 +1,4 @@
-import { MdEdit, MdDelete, MdShoppingCart } from 'react-icons/md'
+import { MdEdit, MdDelete } from 'react-icons/md'
 import useUtilities from 'src/hooks/useUtilities'
 
 export default function Table({name, columns, data, onEdit, onDelete}) {
@@ -36,7 +36,7 @@ export default function Table({name, columns, data, onEdit, onDelete}) {
                                         )
                                     }
 
-                                    if (["value", "cost", "price", "inflow", "outflow", "lucre"].includes(col.key)) {
+                                    if (["value", "firstValue", "cost", "price", "inflow", "outflow", "lucre"].includes(col.key)) {
                                         return (
                                             <td key={col.key} className="px-6 py-4">
                                                 {formatToBRL(value)}

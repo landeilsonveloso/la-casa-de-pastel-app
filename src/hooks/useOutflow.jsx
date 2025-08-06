@@ -9,8 +9,8 @@ export default function useOutflow() {
     const [id, setId] = useState(0)
     const [description, setDescription] = useState("")
     const [date, setDate] = useState(new Date())
-    const [method, setMethod] = useState("")
-    const [value, setValue] = useState(0)
+    const [firstMethod, setFirstMethod] = useState("")
+    const [firstValue, setFirstValue] = useState(0)
     const [outflows, setOutflows] = useState([])
     const [filtered, setFiltered]  = useState([])
     const [filterType, setFilterType] = useState("")
@@ -32,8 +32,8 @@ export default function useOutflow() {
     const columns = [
         {key: "description", label: "Descrição"},
         {key: "date", label: "Data"},
-        {key: "method", label: "Método"},
-        {key: "value", label: "Valor"}
+        {key: "firstMethod", label: "1º Método"},
+        {key: "firstValue", label: "1º Valor"}
     ]
     
     const readOutflows = useCallback(async () => {
@@ -84,7 +84,7 @@ export default function useOutflow() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.post(createOutflowUrl, {description, date, method, value}, {headers})
+            const res = await axios.post(createOutflowUrl, {description, date, firstMethod, firstValue}, {headers})
 
             if (res.status === 201) {
                 toast.success(res.data)
@@ -124,7 +124,7 @@ export default function useOutflow() {
         finally {
             setDisabledOutflowsButton(false)
         }
-    }, [createOutflowUrl, description, date, method, value, closingModal, readOutflows, router])
+    }, [createOutflowUrl, description, date, firstMethod, firstValue, closingModal, readOutflows, router])
 
     const updateOutflow = useCallback(async (e) => {
         e.preventDefault()
@@ -138,7 +138,7 @@ export default function useOutflow() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.put(updateOutflowUrl, {description, date, method, value}, {headers})
+            const res = await axios.put(updateOutflowUrl, {description, date, firstMethod, firstValue}, {headers})
 
             if (res.status === 200) {
                 toast.success(res.data)
@@ -178,7 +178,7 @@ export default function useOutflow() {
         finally {
             setDisabledOutflowsButton(false)
         }
-    }, [updateOutflowUrl, description, date, method, value, closingModal, readOutflows, router])
+    }, [updateOutflowUrl, description, date, firstMethod, firstValue, closingModal, readOutflows, router])
 
     const deleteOutflow = useCallback(async (e) => {
         e.preventDefault()
@@ -314,8 +314,8 @@ export default function useOutflow() {
         setId(item.id)
         setDescription(item.description)
         setDate(item.date)
-        setMethod(item.method)
-        setValue(item.value)
+        setFirstMethod(item.firstMethod)
+        setFirstValue(item.firstValue)
     }, [openingModal])
 
     const handleDelete = useCallback((item) => {
@@ -333,10 +333,10 @@ export default function useOutflow() {
         setDescription,
         date,
         setDate,
-        method,
-        setMethod,
-        value,
-        setValue,
+        firstMethod,
+        setFirstMethod,
+        firstValue,
+        setFirstValue,
         outflows,
         filtered,
         filterType,

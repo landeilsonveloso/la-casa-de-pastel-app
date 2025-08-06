@@ -22,10 +22,10 @@ export default function OutflowsPage() {
         setDescription,
         date,
         setDate,
-        method,
-        setMethod,
-        value,
-        setValue,
+        firstMethod,
+        setFirstMethod,
+        firstValue,
+        setFirstValue,
         filtered,
         filterType,
         setFilterType,
@@ -141,7 +141,7 @@ export default function OutflowsPage() {
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none bg-transparent" onChange={(e) => setMethod(e.target.value)}>
+                                <Select className="w-full px-2 outline-none bg-transparent" onChange={(e) => setFirstMethod(e.target.value)}>
                                     <Option value="">
                                         
                                     </Option>
@@ -165,12 +165,12 @@ export default function OutflowsPage() {
 
                                 <Input
                                     className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="value"
-                                    name="value"
+                                    id="firstValue"
+                                    name="firstValue"
                                     type="number"
                                     placeholder="Valor"
                                     step={0.01}
-                                    onChange={(e) => setValue(e.target.value)}
+                                    onChange={(e) => setFirstValue(e.target.value)}
                                 />
                             </Div>
 
@@ -228,7 +228,7 @@ export default function OutflowsPage() {
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">                                
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none bg-transparent" value={method} onChange={(e) => setMethod(e.target.value)}>
+                                <Select className="w-full px-2 outline-none bg-transparent" value={firstMethod} onChange={(e) => setFirstMethod(e.target.value)}>
                                     <Option value="">
                                         
                                     </Option>
@@ -252,13 +252,13 @@ export default function OutflowsPage() {
 
                                 <Input
                                     className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="value"
-                                    name="value"
+                                    id="firstValue"
+                                    name="firstValue"
                                     type="number"
                                     placeholder="Valor"
                                     step={0.01}
-                                    value={value}
-                                    onChange={(e) => setValue(e.target.value)}
+                                    value={firstValue}
+                                    onChange={(e) => setFirstValue(e.target.value)}
                                 />
                             </Div>
 

@@ -9,8 +9,12 @@ export default function useInflow() {
     const [id, setId] = useState(0)
     const [description, setDescription] = useState("")
     const [date, setDate] = useState(new Date())
-    const [method, setMethod] = useState("")
-    const [value, setValue] = useState(0)
+    const [firstMethod, setFirstMethod] = useState("")
+    const [firstValue, setFirstValue] = useState(0)
+    const [secondMethod, setSecondMethod] = useState("")
+    const [secondValue, setSecondValue] = useState(0)
+    const [thirdMethod, setThirdMethod] = useState("")
+    const [thirdValue, setThirdValue] = useState(0)
     const [inflows, setInflows] = useState([])
     const [filtered, setFiltered]  = useState([])
     const [filterType, setFilterType] = useState("")
@@ -32,8 +36,8 @@ export default function useInflow() {
     const columns = [
         {key: "description", label: "Descrição"},
         {key: "date", label: "Data"},
-        {key: "method", label: "Método"},
-        {key: "value", label: "Valor"}
+        {key: "firstMethod", label: "1º Método"},
+        {key: "firstValue", label: "1º Valor"}
     ]
     
     const readInflows = useCallback(async () => {
@@ -84,7 +88,7 @@ export default function useInflow() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.post(createInflowUrl, {description, date, method, value}, {headers})
+            const res = await axios.post(createInflowUrl, {description, date, firstMethod, firstValue}, {headers})
 
             if (res.status === 201) {
                 toast.success(res.data)
@@ -124,7 +128,7 @@ export default function useInflow() {
         finally {
             setDisabledInflowsButton(false)
         }
-    }, [createInflowUrl, description, date, method, value, closingModal, readInflows, router])
+    }, [createInflowUrl, description, date, firstMethod, firstValue, closingModal, readInflows, router])
 
     const updateInflow = useCallback(async (e) => {
         e.preventDefault()
@@ -138,7 +142,7 @@ export default function useInflow() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.put(updateInflowUrl, {description, date, method, value}, {headers})
+            const res = await axios.put(updateInflowUrl, {description, date, firstMethod, firstValue}, {headers})
 
             if (res.status === 200) {
                 toast.success(res.data)
@@ -178,7 +182,7 @@ export default function useInflow() {
         finally {
             setDisabledInflowsButton(false)
         }
-    }, [updateInflowUrl, description, date, method, value, closingModal, readInflows, router])
+    }, [updateInflowUrl, description, date, firstMethod, firstValue, closingModal, readInflows, router])
 
     const deleteInflow = useCallback(async (e) => {
         e.preventDefault()
@@ -314,8 +318,8 @@ export default function useInflow() {
         setId(item.id)
         setDescription(item.description)
         setDate(item.date)
-        setMethod(item.method)
-        setValue(item.value)
+        setFirstMethod(item.firstMethod)
+        setFirstValue(item.firstValue)
     }, [openingModal])
 
     const handleDelete = useCallback((item) => {
@@ -333,10 +337,10 @@ export default function useInflow() {
         setDescription,
         date,
         setDate,
-        method,
-        setMethod,
-        value,
-        setValue,
+        firstMethod,
+        setFirstMethod,
+        firstValue,
+        setFirstValue,
         inflows,
         filtered,
         selectedDate,

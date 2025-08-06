@@ -22,10 +22,10 @@ export default function InflowsPage() {
         setDescription,
         date,
         setDate,
-        method,
-        setMethod,
-        value,
-        setValue,
+        firstMethod,
+        setFirstMethod,
+        firstValue,
+        setFirstValue,
         filtered,
         filterType,
         setFilterType,
@@ -141,7 +141,7 @@ export default function InflowsPage() {
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none" onChange={(e) => setMethod(e.target.value)}>
+                                <Select className="w-full px-2 outline-none" onChange={(e) => setFirstMethod(e.target.value)}>
                                     <Option value="">
                                         
                                     </Option>
@@ -165,12 +165,12 @@ export default function InflowsPage() {
 
                                 <Input
                                     className="w-full placeholder-gray-500 px-2 outline-none"
-                                    id="value"
-                                    name="value"
+                                    id="firstValue"
+                                    name="firstValue"
                                     type="number"
                                     placeholder="Valor"
                                     step={0.01}
-                                    onChange={(e) => setValue(e.target.value)}
+                                    onChange={(e) => setFirstValue(e.target.value)}
                                 />
                             </Div>
 
@@ -228,7 +228,7 @@ export default function InflowsPage() {
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">                                
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none" value={method} onChange={(e) => setMethod(e.target.value)}>
+                                <Select className="w-full px-2 outline-none" value={firstMethod} onChange={(e) => setFirstMethod(e.target.value)}>
                                     <Option value="">
                                         
                                     </Option>
@@ -252,12 +252,12 @@ export default function InflowsPage() {
 
                                 <Input
                                     className="w-full placeholder-gray-500 px-2 outline-none"
-                                    id="value"
-                                    name="value"
+                                    id="firstValue"
+                                    name="firstValue"
                                     type="number"
                                     placeholder="Valor"
                                     step={0.01}
-                                    value={value}
+                                    value={firstValue}
                                     onChange={(e) => setValue(e.target.value)}
                                 />
                             </Div>
