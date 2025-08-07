@@ -44,8 +44,8 @@ export default function useDashboard() {
         const result = []
 
         for (const date of allDates) {
-            const totalInflow = inflowsByDate[date]?.reduce((sum, item) => sum + Number(item.value), 0) || 0
-            const totalOutflow = outflowsByDate[date]?.reduce((sum, item) => sum + Number(item.value), 0) || 0
+            const totalInflow = inflowsByDate[date]?.reduce((sum, item) => sum + (Number(item.firstValue) + Number(item.secondValue) +  Number(item.thirdValue)), 0) || 0
+            const totalOutflow = outflowsByDate[date]?.reduce((sum, item) => sum + (Number(item.firstValue) + Number(item.secondValue) +  Number(item.thirdValue)), 0) || 0
 
             result.push({
                 date,

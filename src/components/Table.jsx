@@ -28,6 +28,48 @@ export default function Table({name, columns, data, onEdit, onDelete}) {
                                 {columns.map((col) => {
                                     const value = item[col.key]
 
+                                    if (["date"].includes(col.key)) {
+                                        const formattedDate = new Date(value).toLocaleDateString("pt-BR", {timeZone: "UTC"})
+
+                                        return (
+                                            <td key={col.key} className="px-6 py-4">
+                                                {formattedDate}
+                                            </td>
+                                        )
+                                    }
+
+                                    if (col.key === "methods") {
+                                        if (item.secondMethod && item.thirdMethod) {
+                                            return (
+                                                <td key={col.key} className="px-6 py-4">
+                                                    {item.firstMethod + ", " + item.secondMethod + ", " + item.thirdMethod}
+                                                </td>
+                                            )
+                                        }
+                                        
+                                        else if (item.secondMethod) {
+                                            return (
+                                                <td key={col.key} className="px-6 py-4">
+                                                    {item.firstMethod + ", " + item.secondMethod}
+                                                </td>
+                                            )
+                                        }
+
+                                        else if (item.thirdMethod) {
+                                            return (
+                                                <td key={col.key} className="px-6 py-4">
+                                                    {item.firstMethod + ", " + item.thirdMethod}
+                                                </td>
+                                            )
+                                        }
+
+                                        return (
+                                            <td key={col.key} className="px-6 py-4">
+                                                {item.firstMethod}
+                                            </td>
+                                        )
+                                    }
+
                                     if (col.key === "quantityWithUnit") {
                                         return (
                                             <td key={col.key} className="px-6 py-4">
@@ -36,7 +78,7 @@ export default function Table({name, columns, data, onEdit, onDelete}) {
                                         )
                                     }
 
-                                    if (["value", "firstValue", "cost", "price", "inflow", "outflow", "lucre"].includes(col.key)) {
+                                    if (["value", "cost", "price", "inflow", "outflow", "lucre"].includes(col.key)) {
                                         return (
                                             <td key={col.key} className="px-6 py-4">
                                                 {formatToBRL(value)}
@@ -44,12 +86,10 @@ export default function Table({name, columns, data, onEdit, onDelete}) {
                                         )
                                     }
 
-                                    if (["date"].includes(col.key)) {
-                                        const formattedDate = new Date(value).toLocaleDateString("pt-BR", {timeZone: "UTC"})
-
+                                    if (col.key === "valueTotal") {
                                         return (
                                             <td key={col.key} className="px-6 py-4">
-                                                {formattedDate}
+                                                {formatToBRL((parseFloat(item.firstValue) + parseFloat(item.secondValue) + parseFloat(item.thirdValue)))}
                                             </td>
                                         )
                                     }

@@ -48,6 +48,7 @@ export default function RedefinePasswordPage() {
                             maxLength={18}
                             placeholder="Nova senha"
                             onChange={(e) => setPassword(e.target.value)}
+                            required={true}
                         />
 
                         {passwordVisibility ? 
@@ -68,6 +69,7 @@ export default function RedefinePasswordPage() {
                             maxLength={18}
                             placeholder="Confirmar nova senha"
                             onChange={(e) => setConfirmPassword(e.target.value)}
+                            required={true}
                         />
 
                         {passwordConfirmVisibility ? 

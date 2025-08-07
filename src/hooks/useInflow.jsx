@@ -11,10 +11,16 @@ export default function useInflow() {
     const [date, setDate] = useState(new Date())
     const [firstMethod, setFirstMethod] = useState("")
     const [firstValue, setFirstValue] = useState(0)
+    const [secondMethod, setSecondMethod] = useState("")
+    const [secondValue, setSecondValue] = useState(0)
+    const [thirdMethod, setThirdMethod] = useState("")
+    const [thirdValue, setThirdValue] = useState(0)
     const [inflows, setInflows] = useState([])
     const [filtered, setFiltered]  = useState([])
     const [filterType, setFilterType] = useState("")
     const [selectedDate, setSelectedDate] = useState(new Date())
+    const [moreMethodCreate, setMoreMethodCreate] = useState(false)
+    const [moreMethodEdit, setMoreMethodEdit] = useState(false)
     const [disabledInflowsButton, setDisabledInflowsButton] = useState(false)
     const [loading, setLoading] = useState(true)
 
@@ -32,8 +38,8 @@ export default function useInflow() {
     const columns = [
         {key: "description", label: "Descrição"},
         {key: "date", label: "Data"},
-        {key: "firstMethod", label: "1º Método"},
-        {key: "firstValue", label: "1º Valor"}
+        {key: "methods", label: "Métodos"},
+        {key: "valueTotal", label: "Valor Total"}
     ]
     
     const readInflows = useCallback(async () => {
@@ -84,11 +90,12 @@ export default function useInflow() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.post(createInflowUrl, {description, date, firstMethod, firstValue}, {headers})
+            const res = await axios.post(createInflowUrl, {description, date, firstMethod, firstValue, secondMethod, secondValue, thirdMethod, thirdValue}, {headers})
 
             if (res.status === 201) {
                 toast.success(res.data)
                 closingModal()
+                setMoreMethodCreate(false)
                 readInflows()
             }
 
@@ -124,7 +131,7 @@ export default function useInflow() {
         finally {
             setDisabledInflowsButton(false)
         }
-    }, [createInflowUrl, description, date, firstMethod, firstValue, closingModal, readInflows, router])
+    }, [createInflowUrl, description, date, firstMethod, firstValue, secondMethod, secondValue, thirdMethod, thirdValue, closingModal, readInflows, router])
 
     const updateInflow = useCallback(async (e) => {
         e.preventDefault()
@@ -138,11 +145,12 @@ export default function useInflow() {
                 "Authorization": localStorage.getItem("token")
             }
 
-            const res = await axios.put(updateInflowUrl, {description, date, firstMethod, firstValue}, {headers})
+            const res = await axios.put(updateInflowUrl, {description, date, firstMethod, firstValue, secondMethod, secondValue, thirdMethod, thirdValue}, {headers})
 
             if (res.status === 200) {
                 toast.success(res.data)
                 closingModal()
+                setMoreMethodEdit(false)
                 readInflows()
             }
 
@@ -178,7 +186,7 @@ export default function useInflow() {
         finally {
             setDisabledInflowsButton(false)
         }
-    }, [updateInflowUrl, description, date, firstMethod, firstValue, closingModal, readInflows, router])
+    }, [updateInflowUrl, description, date, firstMethod, firstValue, secondMethod, secondValue, thirdMethod, thirdValue, closingModal, readInflows, router])
 
     const deleteInflow = useCallback(async (e) => {
         e.preventDefault()
@@ -305,17 +313,23 @@ export default function useInflow() {
 
     const handleAdd = useCallback(() => {
         setTag("Create")
+        setMoreMethodCreate(false)
         openingModal()
     }, [openingModal])
 
     const handleEdit = useCallback((item) => {
         setTag("Edit")
+        setMoreMethodEdit(false)
         openingModal()
         setId(item.id)
         setDescription(item.description)
         setDate(item.date)
         setFirstMethod(item.firstMethod)
         setFirstValue(item.firstValue)
+        setSecondMethod(item.secondMethod)
+        setSecondValue(item.secondValue)
+        setThirdMethod(item.thirdMethod)
+        setThirdValue(item.thirdValue)
     }, [openingModal])
 
     const handleDelete = useCallback((item) => {
@@ -326,6 +340,8 @@ export default function useInflow() {
 
     const handleCancel = useCallback(() => {
         closingModal()
+        setMoreMethodCreate(false)
+        setMoreMethodEdit(false)
     }, [closingModal])
 
     return {
@@ -337,13 +353,24 @@ export default function useInflow() {
         setFirstMethod,
         firstValue,
         setFirstValue,
+        secondMethod,
+        setSecondMethod,
+        secondValue,
+        setSecondValue,
+        thirdMethod,
+        setThirdMethod,
+        thirdValue,
+        setThirdValue,
         inflows,
         filtered,
-        selectedDate,
         filterType,
         setFilterType,
         selectedDate,
         setSelectedDate,
+        moreMethodCreate,
+        setMoreMethodCreate,
+        moreMethodEdit,
+        setMoreMethodEdit,
         disabledInflowsButton,
         loading,
         isOpen,

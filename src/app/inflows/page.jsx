@@ -26,11 +26,23 @@ export default function InflowsPage() {
         setFirstMethod,
         firstValue,
         setFirstValue,
+        secondMethod,
+        setSecondMethod,
+        secondValue,
+        setSecondValue,
+        thirdMethod,
+        setThirdMethod,
+        thirdValue,
+        setThirdValue,
         filtered,
         filterType,
         setFilterType,
         selectedDate,
         setSelectedDate,
+        moreMethodCreate,
+        setMoreMethodCreate,
+        moreMethodEdit,
+        setMoreMethodEdit,
         disabledInflowsButton,
         loading,
         isOpen,
@@ -57,7 +69,7 @@ export default function InflowsPage() {
         <AuthProvider>
             <Div className="text-white min-h-screen bg-black">
                 <Div className="flex justify-between items-center mb-6">
-                    <Title>Entrada: {formatToBRL(filtered.reduce((sum, item) => sum + parseFloat(item.value), 0))}</Title>
+                    <Title>Entrada: {formatToBRL(filtered.reduce((sum, item) => sum + (parseFloat(item.firstValue) + parseFloat(item.secondValue) + parseFloat(item.thirdValue)), 0))}</Title>
 
                     <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-800 text-white px-4 py-2 cursor-pointer rounded-md transition" onClick={handleAdd}>
                         <MdAdd size={20}/>
@@ -125,6 +137,7 @@ export default function InflowsPage() {
                                     maxLength={60}
                                     placeholder="Descrição"
                                     onChange={(e) => setDescription(e.target.value)}
+                                    required={true}
                                 />
                             </Div>
 
@@ -135,13 +148,14 @@ export default function InflowsPage() {
                                     name="date"
                                     type="date"
                                     onChange={(e) => setDate(e.target.value)}
+                                    required={true}
                                 />
                             </Div>                 
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none" onChange={(e) => setFirstMethod(e.target.value)}>
+                                <Select className="w-full px-2 outline-none" onChange={(e) => setFirstMethod(e.target.value)} required={true}>
                                     <Option value="">
                                         
                                     </Option>
@@ -160,7 +174,7 @@ export default function InflowsPage() {
                                 </Select>
                             </Div>
 
-                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
 
                                 <Input
@@ -171,8 +185,101 @@ export default function InflowsPage() {
                                     placeholder="Valor"
                                     step={0.01}
                                     onChange={(e) => setFirstValue(e.target.value)}
+                                    required={true}
                                 />
                             </Div>
+
+                            <Div className="flex justify-end w-full mb-6 pr-2 gap-2 text-gray-600">
+                                <span>Mais Métodos</span>
+
+                                <Input
+                                    className="w-4 cursor-pointer"
+                                    id="moreMethodCreate"
+                                    name="moreMethodCreate"
+                                    type="checkbox"
+                                    onChange={(e) => setMoreMethodCreate(e.target.checked)}
+                                />
+                            </Div>
+
+                            {moreMethodCreate ? (
+                                <>
+                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                        <MdCategory className="text-gray-600 text-xl mr-2"/>
+                                        
+                                        <Select className="w-full px-2 outline-none" onChange={(e) => setSecondMethod(e.target.value)} required={false}>
+                                            <Option value="">
+                                                
+                                            </Option>
+
+                                            <Option value="Cartão">
+                                                Cartão
+                                            </Option>
+
+                                            <Option value="Espécie">
+                                                Espécie
+                                            </Option>
+
+                                            <Option value="Pix">
+                                                Pix
+                                            </Option>
+                                        </Select>
+                                    </Div>
+
+                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                        <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+
+                                        <Input
+                                            className="w-full placeholder-gray-500 px-2 outline-none"
+                                            id="secondValue"
+                                            name="secondValue"
+                                            type="number"
+                                            placeholder="Valor"
+                                            step={0.01}
+                                            onChange={(e) => setSecondValue(e.target.value)}
+                                            required={false}
+                                        />
+                                    </Div>
+
+                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                        <MdCategory className="text-gray-600 text-xl mr-2"/>
+                                        
+                                        <Select className="w-full px-2 outline-none" onChange={(e) => setThirdMethod(e.target.value)} required={false}>
+                                            <Option value="">
+                                                
+                                            </Option>
+
+                                            <Option value="Cartão">
+                                                Cartão
+                                            </Option>
+
+                                            <Option value="Espécie">
+                                                Espécie
+                                            </Option>
+
+                                            <Option value="Pix">
+                                                Pix
+                                            </Option>
+                                        </Select>
+                                    </Div>
+
+                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                        <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+
+                                        <Input
+                                            className="w-full placeholder-gray-500 px-2 outline-none"
+                                            id="thirdValue"
+                                            name="thirdValue"
+                                            type="number"
+                                            placeholder="Valor"
+                                            step={0.01}
+                                            onChange={(e) => setThirdValue(e.target.value)}
+                                            required={false}
+                                        />
+                                    </Div>
+                                </>
+                            ) : (
+                                null
+                            )}
 
                             <Div className="flex justify-end gap-3">
                                 <Button className="bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
@@ -258,9 +365,104 @@ export default function InflowsPage() {
                                     placeholder="Valor"
                                     step={0.01}
                                     value={firstValue}
-                                    onChange={(e) => setValue(e.target.value)}
+                                    onChange={(e) => setFirstValue(e.target.value)}
                                 />
                             </Div>
+
+                            <Div className="flex justify-end w-full mb-6 pr-2 gap-2 text-gray-600">
+                                <span>Mais Métodos</span>
+
+                                <Input
+                                    className="w-4 cursor-pointer"
+                                    id="moreMethodEdit"
+                                    name="moreMethodEdit"
+                                    type="checkbox"
+                                    value={moreMethodEdit}
+                                    onChange={(e) => setMoreMethodEdit(e.target.checked)}
+                                />
+                            </Div>
+
+                            {moreMethodEdit ? (
+                                <>
+                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                        <MdCategory className="text-gray-600 text-xl mr-2"/>
+                                        
+                                        <Select className="w-full px-2 outline-none" value={secondMethod} onChange={(e) => setSecondMethod(e.target.value)} required={false}>
+                                            <Option value="">
+                                                
+                                            </Option>
+
+                                            <Option value="Cartão">
+                                                Cartão
+                                            </Option>
+
+                                            <Option value="Espécie">
+                                                Espécie
+                                            </Option>
+
+                                            <Option value="Pix">
+                                                Pix
+                                            </Option>
+                                        </Select>
+                                    </Div>
+
+                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                        <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+
+                                        <Input
+                                            className="w-full placeholder-gray-500 px-2 outline-none"
+                                            id="secondValue"
+                                            name="secondValue"
+                                            type="number"
+                                            placeholder="Valor"
+                                            step={0.01}
+                                            value={secondValue}
+                                            onChange={(e) => setSecondValue(e.target.value)}
+                                            required={false}
+                                        />
+                                    </Div>
+
+                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                        <MdCategory className="text-gray-600 text-xl mr-2"/>
+                                        
+                                        <Select className="w-full px-2 outline-none" value={thirdMethod} onChange={(e) => setThirdMethod(e.target.value)} required={false}>
+                                            <Option value="">
+                                                
+                                            </Option>
+
+                                            <Option value="Cartão">
+                                                Cartão
+                                            </Option>
+
+                                            <Option value="Espécie">
+                                                Espécie
+                                            </Option>
+
+                                            <Option value="Pix">
+                                                Pix
+                                            </Option>
+                                        </Select>
+                                    </Div>
+
+                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
+                                        <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+
+                                        <Input
+                                            className="w-full placeholder-gray-500 px-2 outline-none"
+                                            id="thirdValue"
+                                            name="thirdValue"
+                                            type="number"
+                                            placeholder="Valor"
+                                            step={0.01}
+                                            value={thirdValue}
+                                            onChange={(e) => setThirdValue(e.target.value)}
+                                            required={false}
+                                        />
+                                    </Div>
+                                </>
+                            ) : (
+                                null
+                            )}
 
                             <Div className="flex justify-end gap-3">
                                 <Button className="bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>

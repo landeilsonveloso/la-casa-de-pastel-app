@@ -96,6 +96,7 @@ export default function ItemsPage() {
                                     maxLength={60}
                                     placeholder="Descrição"
                                     onChange={(e) => setDescription(e.target.value)}
+                                    required={true}
                                 />
                             </Div>
 
@@ -110,13 +111,14 @@ export default function ItemsPage() {
                                     placeholder="Quantidade"
                                     step={0.01}
                                     onChange={(e) => setQuantity(e.target.value)}
+                                    required={true}
                                 />
                             </Div>
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none" onChange={(e) => setUnitMeasure(e.target.value)}>
+                                <Select className="w-full px-2 outline-none" onChange={(e) => setUnitMeasure(e.target.value)} required={true}>
                                     <Option value="">
                                         
                                     </Option>
@@ -158,6 +160,7 @@ export default function ItemsPage() {
                                     placeholder="Valor"
                                     step={0.01}
                                     onChange={(e) => setValue(e.target.value)}
+                                    required={true}
                                 />
                             </Div>
 
@@ -197,6 +200,7 @@ export default function ItemsPage() {
                                     placeholder="Descrição"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
+                                    required={true}
                                 />
                             </Div>
 
@@ -212,13 +216,14 @@ export default function ItemsPage() {
                                     step={0.01}
                                     value={quantity}
                                     onChange={(e) => setQuantity(e.target.value)}
+                                    required={true}
                                 />
                             </Div>
 
                             <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
                                 <MdCategory className="text-gray-600 text-xl mr-2"/>
                                 
-                                <Select className="w-full px-2 outline-none" value={unitMeasure} onChange={(e) => setUnitMeasure(e.target.value)}>
+                                <Select className="w-full px-2 outline-none" value={unitMeasure} onChange={(e) => setUnitMeasure(e.target.value)} required={true}>
                                     <Option value="">
                                         
                                     </Option>
@@ -261,6 +266,7 @@ export default function ItemsPage() {
                                     step={0.01}
                                     value={value}
                                     onChange={(e) => setValue(e.target.value)}
+                                    required={true}
                                 />
                             </Div>
 
