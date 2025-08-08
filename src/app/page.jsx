@@ -44,7 +44,7 @@ export default function SignInPage() {
                         maxLength={60}
                         placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
-                        required={true}
+                        required
                     />
                 </Div>
 
@@ -59,7 +59,7 @@ export default function SignInPage() {
                         maxLength={18}
                         placeholder="Senha"
                         onChange={(e) => setPassword(e.target.value)}
-                        required={true}
+                        required
                     />
 
                     {passwordVisibility ? 

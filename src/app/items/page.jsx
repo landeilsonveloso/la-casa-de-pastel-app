@@ -5,6 +5,7 @@ import Button from "src/components/Button"
 import Div from "src/containers/Div"
 import Form from "src/components/Form"
 import Input from "src/components/Input"
+import Label from "src/containers/Label"
 import Loading from "src/components/Loading"
 import { MdAdd, MdCategory, MdClose, MdMonetizationOn, MdNotes, MdNumbers } from "react-icons/md"
 import Modal from "src/components/Modal"
@@ -80,101 +81,92 @@ export default function ItemsPage() {
                     <Modal>
                         <Form onSubimit={createItem}>
                             <Div className="w-full flex justify-end">
-                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
+                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
+                            </Div>
+                            
+                            <Title className="text-center mb-4 text-xl font-bold">Novo Item</Title>
+                            
+                            <Div className="space-y-4">
+                                <Label className="font-medium" htmlFor="description">Descrição</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdNotes className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="description"
+                                        name="description"
+                                        type="text"
+                                        maxLength={60}
+                                        placeholder="Descrição"
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        required
+                                    />
+                                </Div>
+
+                                <Label className="font-medium" htmlFor="quantity">Quantidade</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdNumbers className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="quantity"
+                                        name="quantity"
+                                        type="number"
+                                        step={0.01}
+                                        placeholder="0"
+                                        onChange={(e) => setQuantity(e.target.value)}
+                                        required
+                                    />
+                                </Div>
+
+                                <Label className="font-medium">Unidade de Medida</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdCategory className="text-gray-600 mr-2"/>
+
+                                    <Select className="w-full p-0.5 cursor-pointer bg-transparent outline-none" onChange={(e) => setUnitMeasure(e.target.value)} required>
+                                        <Option value=""></Option>
+                                        <Option value="un">Un</Option>
+                                        <Option value="mg">Mg</Option>
+                                        <Option value="g">G</Option>
+                                        <Option value="kg">Kg</Option>
+                                        <Option value="ml">Ml</Option>
+                                        <Option value="l">L</Option>
+                                    </Select>
+                                </Div>
+
+                                <Label className="font-medium" htmlFor="value">Valor</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdMonetizationOn className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="value"
+                                        name="value"
+                                        type="number"
+                                        step={0.01}
+                                        placeholder="0,00"
+                                        onChange={(e) => setValue(e.target.value)}
+                                        required
+                                    />
+                                </Div>
                             </Div>
 
-                            <Title>Novo Item</Title>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdNotes className="text-gray-600 text-xl mr-2"/>
-
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="description"
-                                    name="description"
-                                    type="text"
-                                    maxLength={60}
-                                    placeholder="Descrição"
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdNumbers className="text-gray-600 text-xl mr-2"/>
-
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="quantity"
-                                    name="quantity"
-                                    type="number"
-                                    placeholder="Quantidade"
-                                    step={0.01}
-                                    onChange={(e) => setQuantity(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdCategory className="text-gray-600 text-xl mr-2"/>
-                                
-                                <Select className="w-full px-2 outline-none" onChange={(e) => setUnitMeasure(e.target.value)} required={true}>
-                                    <Option value="">
-                                        
-                                    </Option>
-
-                                    <Option value="un">
-                                        UN
-                                    </Option>
-
-                                    <Option value="mg">
-                                        MG
-                                    </Option>
-
-                                    <Option value="g">
-                                        G
-                                    </Option>
-
-                                    <Option value="kg">
-                                        KG
-                                    </Option>
-
-                                    <Option value="ml">
-                                        ML
-                                    </Option>
-
-                                    <Option value="l">
-                                        L
-                                    </Option>
-                                </Select>
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
-
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="value"
-                                    name="value"
-                                    type="number"
-                                    placeholder="Valor"
-                                    step={0.01}
-                                    onChange={(e) => setValue(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>
-
-                            <Div className="flex justify-end gap-3">
-                                <Button className="w-24 bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
+                            <Div className="flex justify-end gap-4 mt-6">
+                                <Button className="bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded cursor-pointer" type="button" onClick={handleCancel}>
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-28 bg-green-600 text-white px-4 py-2 rounded transition ${disabledItemsButton ? "cursor-default opacity-70" : "hover:bg-green-800 cursor-pointer"}`} disabled={disabledItemsButton}>
+                                <Button className={`flex justify-center w-28 bg-green-600 text-white py-2 rounded transition ${disabledItemsButton ? "cursor-default opacity-70" : "hover:bg-green-800 cursor-pointer"}`} disabled={disabledItemsButton}>
                                     {disabledItemsButton ? <Spinner/> : <>Adicionar</>}
                                 </Button>
                             </Div>
                         </Form>
                     </Modal>
+
                 ) : 
                     null
                 }
@@ -183,99 +175,89 @@ export default function ItemsPage() {
                     <Modal>
                         <Form onSubimit={updateItem}>
                             <Div className="w-full flex justify-end">
-                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
+                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
+                            </Div>
+                            
+                            <Title className="text-center mb-4 text-xl font-bold">Editar Item</Title>
+                            
+                            <Div className="space-y-4">
+                                <Label className="font-medium" htmlFor="description">Descrição</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdNotes className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="description"
+                                        name="description"
+                                        type="text"
+                                        maxLength={60}
+                                        placeholder="Descrição"
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        required
+                                    />
+                                </Div>
+
+                                <Label className="font-medium" htmlFor="quantity">Quantidade</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdNumbers className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="quantity"
+                                        name="quantity"
+                                        type="number"
+                                        step={0.01}
+                                        placeholder="0"
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(e.target.value)}
+                                        required
+                                    />
+                                </Div>
+
+                                <Label className="font-medium">Unidade de Medida</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdCategory className="text-gray-600 mr-2"/>
+
+                                    <Select className="w-full p-0.5 cursor-pointer bg-transparent outline-none" value={unitMeasure} onChange={(e) => setUnitMeasure(e.target.value)} required>
+                                        <Option value=""></Option>
+                                        <Option value="un">Un</Option>
+                                        <Option value="mg">Mg</Option>
+                                        <Option value="g">G</Option>
+                                        <Option value="kg">Kg</Option>
+                                        <Option value="ml">Ml</Option>
+                                        <Option value="l">L</Option>
+                                    </Select>
+                                </Div>
+
+                                <Label className="font-medium" htmlFor="value">Valor</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdMonetizationOn className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="value"
+                                        name="value"
+                                        type="number"
+                                        step={0.01}
+                                        placeholder="0,00"
+                                        value={value}
+                                        onChange={(e) => setValue(e.target.value)}
+                                        required
+                                    />
+                                </Div>
                             </Div>
 
-                            <Title>Editar Item</Title>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdNotes className="text-gray-600 text-xl mr-2"/>
-
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="description"
-                                    name="description"
-                                    type="text"
-                                    maxLength={60}
-                                    placeholder="Descrição"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdNumbers className="text-gray-600 text-xl mr-2"/>
-
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="quantity"
-                                    name="quantity"
-                                    type="number"
-                                    placeholder="Quantidade"
-                                    step={0.01}
-                                    value={quantity}
-                                    onChange={(e) => setQuantity(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdCategory className="text-gray-600 text-xl mr-2"/>
-                                
-                                <Select className="w-full px-2 outline-none" value={unitMeasure} onChange={(e) => setUnitMeasure(e.target.value)} required={true}>
-                                    <Option value="">
-                                        
-                                    </Option>
-
-                                    <Option value="un">
-                                        UN
-                                    </Option>
-
-                                    <Option value="mg">
-                                        MG
-                                    </Option>
-
-                                    <Option value="g">
-                                        G
-                                    </Option>
-
-                                    <Option value="kg">
-                                        KG
-                                    </Option>
-
-                                    <Option value="ml">
-                                        ML
-                                    </Option>
-
-                                    <Option value="l">
-                                        L
-                                    </Option>
-                                </Select>
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
-
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none bg-transparent"
-                                    id="value"
-                                    name="value"
-                                    type="number"
-                                    placeholder="Valor"
-                                    step={0.01}
-                                    value={value}
-                                    onChange={(e) => setValue(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>
-
-                            <Div className="flex justify-end gap-3">
-                                <Button className="w-24 bg-red-600 text-white py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
+                            <Div className="flex justify-end gap-4 mt-6">
+                                <Button className="bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded cursor-pointer" type="button" onClick={handleCancel}>
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-20 bg-blue-600 text-white py-2 rounded transition ${disabledItemsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledItemsButton}>
+                                <Button className={`flex justify-center w-28 bg-blue-600 text-white py-2 rounded transition ${disabledItemsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledItemsButton}>
                                     {disabledItemsButton ? <Spinner/> : <>Salvar</>}
                                 </Button>
                             </Div>
@@ -289,7 +271,7 @@ export default function ItemsPage() {
                     <Modal>
                         <Form className="flex flex-col" onSubimit={deleteItem}>
                             <Div className="w-full flex justify-end">
-                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
+                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
 
                             <Div className="text-center text-xl mt-4 mb-8">

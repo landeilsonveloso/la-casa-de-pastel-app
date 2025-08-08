@@ -5,6 +5,7 @@ import Button from "src/components/Button"
 import Div from "src/containers/Div"
 import Form from "src/components/Form"
 import Input from "src/components/Input"
+import Label from "src/containers/Label"
 import Loading from "src/components/Loading"
 import { MdAdd, MdCategory, MdClose, MdMonetizationOn, MdNotes } from "react-icons/md"
 import Modal from "src/components/Modal"
@@ -39,10 +40,8 @@ export default function InflowsPage() {
         setFilterType,
         selectedDate,
         setSelectedDate,
-        moreMethodCreate,
-        setMoreMethodCreate,
-        moreMethodEdit,
-        setMoreMethodEdit,
+        showSecondMethod,
+        showThirdMethod,
         disabledInflowsButton,
         loading,
         isOpen,
@@ -54,7 +53,10 @@ export default function InflowsPage() {
         handleAdd,
         handleEdit,
         handleDelete,
-        handleCancel
+        handleCancel,
+        handleNewMethod,
+        handleRemoveSecondMethod,
+        handleRemoveThirdMethod
     } = useInflow()
 
     const {
@@ -81,21 +83,10 @@ export default function InflowsPage() {
                     <Title>Filtrar</Title>
                     
                     <Select className="w-1/5 bg-black border rounded px-4 py-[10px] mb-4" value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-                        <Option value="">
-                            
-                        </Option>
-
-                        <Option value="day">
-                            Dia
-                        </Option>
-
-                        <Option value="week">
-                            Semana
-                        </Option>
-
-                        <Option value="month">
-                            Mês
-                        </Option>
+                        <Option value=""></Option>
+                        <Option value="day">Dia</Option>
+                        <Option value="week">Semana</Option>
+                        <Option value="month">Mês</Option>
                     </Select>
 
                     <Input
@@ -120,169 +111,161 @@ export default function InflowsPage() {
                     <Modal>
                         <Form onSubimit={createInflow}>
                             <Div className="w-full flex justify-end">
-                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
+                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
+                            </Div>
+                            
+                            <Title className="text-center mb-4 text-xl font-bold">Novo Entrada</Title>
+                            
+                            <Div className="space-y-4">
+                                <Label className="font-medium" htmlFor="description">Descrição</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdNotes className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="description"
+                                        name="description"
+                                        type="text"
+                                        maxLength={60}
+                                        placeholder="Descrição"
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        required
+                                    />
+                                </Div>
+
+                                <Label className="font-medium" htmlFor="date">Data</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="date"
+                                        name="date"
+                                        type="date"
+                                        onChange={(e) => setDate(e.target.value)}
+                                        required
+                                    />
+                                </Div>
+
+                                <Label className="font-medium">Método de Pagamento</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdCategory className="text-gray-600 mr-2"/>
+
+                                    <Select className="w-full p-0.5 cursor-pointer bg-transparent outline-none" onChange={(e) => setFirstMethod(e.target.value)} required>
+                                        <Option value=""></Option>
+                                        <Option value="Cartão">Cartão</Option>
+                                        <Option value="Espécie">Espécie</Option>
+                                        <Option value="Pix">Pix</Option>
+                                    </Select>
+                                </Div>
+
+                                <Label className="font-medium" htmlFor="firstValue">Valor</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdMonetizationOn className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="firstValue"
+                                        name="firstValue"
+                                        type="number"
+                                        step={0.01}
+                                        placeholder="0,00"
+                                        onChange={(e) => setFirstValue(e.target.value)}
+                                        required
+                                    />
+                                </Div>
                             </Div>
 
-                            <Title>Nova Entrada</Title>
+                            {showSecondMethod ? (
+                                <Div className="mt-1 pt-4">
+                                    <Div className="flex justify-between items-center">
+                                        <Label className="font-medium">Método de Pagamento</Label>
+                                        <MdClose className="text-red-600 hover:text-red-80 cursor-pointer" size={20} onClick={handleRemoveSecondMethod}/>
+                                    </Div>
 
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdNotes className="text-gray-600 text-xl mr-2"/>
+                                    <Div className="flex items-center border rounded-lg p-2 mt-1 mb-4">
+                                        <MdCategory className="text-gray-600 mr-2"/>
 
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none"
-                                    id="description"
-                                    name="description"
-                                    type="text"
-                                    minLength={3}
-                                    maxLength={60}
-                                    placeholder="Descrição"
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <Input
-                                    className="w-full px-2 outline-none"
-                                    id="date"
-                                    name="date"
-                                    type="date"
-                                    onChange={(e) => setDate(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>                 
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdCategory className="text-gray-600 text-xl mr-2"/>
-                                
-                                <Select className="w-full px-2 outline-none" onChange={(e) => setFirstMethod(e.target.value)} required={true}>
-                                    <Option value="">
-                                        
-                                    </Option>
-
-                                    <Option value="Cartão">
-                                        Cartão
-                                    </Option>
-
-                                    <Option value="Espécie">
-                                        Espécie
-                                    </Option>
-
-                                    <Option value="Pix">
-                                        Pix
-                                    </Option>
-                                </Select>
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
-
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none"
-                                    id="firstValue"
-                                    name="firstValue"
-                                    type="number"
-                                    placeholder="Valor"
-                                    step={0.01}
-                                    onChange={(e) => setFirstValue(e.target.value)}
-                                    required={true}
-                                />
-                            </Div>
-
-                            <Div className="flex justify-end w-full mb-6 pr-2 gap-2 text-gray-600">
-                                <span>Mais Métodos</span>
-
-                                <Input
-                                    className="w-4 cursor-pointer"
-                                    id="moreMethodCreate"
-                                    name="moreMethodCreate"
-                                    type="checkbox"
-                                    onChange={(e) => setMoreMethodCreate(e.target.checked)}
-                                />
-                            </Div>
-
-                            {moreMethodCreate ? (
-                                <>
-                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                        <MdCategory className="text-gray-600 text-xl mr-2"/>
-                                        
-                                        <Select className="w-full px-2 outline-none" onChange={(e) => setSecondMethod(e.target.value)} required={false}>
-                                            <Option value="">
-                                                
-                                            </Option>
-
-                                            <Option value="Cartão">
-                                                Cartão
-                                            </Option>
-
-                                            <Option value="Espécie">
-                                                Espécie
-                                            </Option>
-
-                                            <Option value="Pix">
-                                                Pix
-                                            </Option>
+                                        <Select className="w-full p-0.5 cursor-pointer bg-transparent outline-none" onChange={(e) => setSecondMethod(e.target.value)} required>
+                                            <Option value=""></Option>
+                                            <Option value="Cartão">Cartão</Option>
+                                            <Option value="Espécie">Espécie</Option>
+                                            <Option value="Pix">Pix</Option>
                                         </Select>
                                     </Div>
 
-                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                        <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+                                    <Label className="font-medium" htmlFor="secondValue">Valor</Label>
+
+                                    <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                        <MdMonetizationOn className="text-gray-600 mr-2"/>
 
                                         <Input
-                                            className="w-full placeholder-gray-500 px-2 outline-none"
+                                            className="w-full outline-none bg-transparent"
                                             id="secondValue"
                                             name="secondValue"
                                             type="number"
-                                            placeholder="Valor"
                                             step={0.01}
+                                            placeholder="0,00"
                                             onChange={(e) => setSecondValue(e.target.value)}
-                                            required={false}
+                                            required
                                         />
                                     </Div>
+                                </Div>
+                            ) : 
+                                null
+                            }
 
-                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                        <MdCategory className="text-gray-600 text-xl mr-2"/>
-                                        
-                                        <Select className="w-full px-2 outline-none" onChange={(e) => setThirdMethod(e.target.value)} required={false}>
-                                            <Option value="">
-                                                
-                                            </Option>
+                            {showThirdMethod ? (
+                                <Div className="mt-1 pt-4">
+                                    <Div className="flex justify-between items-center">
+                                        <Label className="font-medium">Método de Pagamento</Label>
+                                        <MdClose className="text-red-600 hover:text-red-80 cursor-pointer" size={20} onClick={handleRemoveThirdMethod}/>
+                                    </Div>
 
-                                            <Option value="Cartão">
-                                                Cartão
-                                            </Option>
+                                    <Div className="flex items-center border rounded-lg p-2 mt-1 mb-4">
+                                        <MdCategory className="text-gray-600 mr-2"/>
 
-                                            <Option value="Espécie">
-                                                Espécie
-                                            </Option>
-
-                                            <Option value="Pix">
-                                                Pix
-                                            </Option>
+                                        <Select className="w-full p-0.5 cursor-pointer bg-transparent outline-none" onChange={(e) => setThirdMethod(e.target.value)} required>
+                                            <Option value=""></Option>
+                                            <Option value="Cartão">Cartão</Option>
+                                            <Option value="Espécie">Espécie</Option>
+                                            <Option value="Pix">Pix</Option>
                                         </Select>
                                     </Div>
 
-                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                        <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+                                    <Label className="font-medium" htmlFor="thirdValue">Valor</Label>
+
+                                    <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                        <MdMonetizationOn className="text-gray-600 mr-2"/>
 
                                         <Input
-                                            className="w-full placeholder-gray-500 px-2 outline-none"
+                                            className="w-full outline-none bg-transparent"
                                             id="thirdValue"
                                             name="thirdValue"
                                             type="number"
-                                            placeholder="Valor"
                                             step={0.01}
+                                            placeholder="0,00"
                                             onChange={(e) => setThirdValue(e.target.value)}
-                                            required={false}
+                                            required
                                         />
                                     </Div>
-                                </>
-                            ) : (
+                                </Div>
+                            ) : 
                                 null
-                            )}
+                            }
 
-                            <Div className="flex justify-end gap-3">
-                                <Button className="bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
+                            {!showSecondMethod || !showThirdMethod ? (
+                                <Button className="flex items-center justify-center gap-2 w-full border-2 border-dashed rounded-lg mt-6 py-2 text-gray-600 cursor-pointer hover:border-green-500 hover:text-green-500 transition" type="button" onClick={handleNewMethod}>
+                                    <MdAdd size={20}/> Adicionar outro método
+                                </Button>
+                            ) :
+                                null
+                            }
+
+                            <Div className="flex justify-end gap-4 mt-6">
+                                <Button className="bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded cursor-pointer" type="button" onClick={handleCancel}>
                                     Cancelar
                                 </Button>
 
@@ -300,176 +283,170 @@ export default function InflowsPage() {
                     <Modal>
                         <Form onSubimit={updateInflow}>
                             <Div className="w-full flex justify-end">
-                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
+                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
+                            </Div>
+                            
+                            <Title className="text-center mb-4 text-xl font-bold">Editar Entrada</Title>
+                            
+                            <Div className="space-y-4">
+                                <Label className="font-medium" htmlFor="description">Descrição</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdNotes className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="description"
+                                        name="description"
+                                        type="text"
+                                        maxLength={60}
+                                        placeholder="Descrição"
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        required
+                                    />
+                                </Div>
+
+                                <Label className="font-medium" htmlFor="date">Data</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="date"
+                                        name="date"
+                                        type="date"
+                                        value={date}
+                                        onChange={(e) => setDate(e.target.value)}
+                                        required
+                                    />
+                                </Div>
+
+                                <Label className="font-medium">Método de Pagamento</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdCategory className="text-gray-600 mr-2"/>
+
+                                    <Select className="w-full p-0.5 cursor-pointer bg-transparent outline-none" value={firstMethod} onChange={(e) => setFirstMethod(e.target.value)} required>
+                                        <Option value=""></Option>
+                                        <Option value="Cartão">Cartão</Option>
+                                        <Option value="Espécie">Espécie</Option>
+                                        <Option value="Pix">Pix</Option>
+                                    </Select>
+                                </Div>
+
+                                <Label className="font-medium" htmlFor="firstValue">Valor</Label>
+
+                                <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                    <MdMonetizationOn className="text-gray-600 mr-2"/>
+
+                                    <Input
+                                        className="w-full outline-none bg-transparent"
+                                        id="firstValue"
+                                        name="firstValue"
+                                        type="number"
+                                        step={0.01}
+                                        placeholder="0,00"
+                                        value={firstValue}
+                                        onChange={(e) => setFirstValue(e.target.value)}
+                                        required
+                                    />
+                                </Div>
                             </Div>
 
-                            <Title>Editar Entrada</Title>
+                            {showSecondMethod ? (
+                                <Div className="mt-1 pt-4">
+                                    <Div className="flex justify-between items-center">
+                                        <Label className="font-medium">Método de Pagamento</Label>
+                                        <MdClose className="text-red-600 hover:text-red-80 cursor-pointer" size={20} onClick={handleRemoveSecondMethod}/>
+                                    </Div>
 
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdNotes className="text-gray-600 text-xl mr-2"/>
+                                    <Div className="flex items-center border rounded-lg p-2 mt-1 mb-4">
+                                        <MdCategory className="text-gray-600 mr-2"/>
 
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none"
-                                    id="description"
-                                    name="description"
-                                    type="text"
-                                    minLength={3}
-                                    maxLength={60}
-                                    placeholder="Descrição"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <Input
-                                    className="w-full px-2 outline-none"
-                                    id="date"
-                                    name="date"
-                                    type="date"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                />
-                            </Div>  
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">                                
-                                <MdCategory className="text-gray-600 text-xl mr-2"/>
-                                
-                                <Select className="w-full px-2 outline-none" value={firstMethod} onChange={(e) => setFirstMethod(e.target.value)}>
-                                    <Option value="">
-                                        
-                                    </Option>
-
-                                    <Option value="Cartão">
-                                        Cartão
-                                    </Option>
-
-                                    <Option value="Espécie">
-                                        Espécie
-                                    </Option>
-
-                                    <Option value="Pix">
-                                        Pix
-                                    </Option>
-                                </Select>                         
-                            </Div>
-
-                            <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
-
-                                <Input
-                                    className="w-full placeholder-gray-500 px-2 outline-none"
-                                    id="firstValue"
-                                    name="firstValue"
-                                    type="number"
-                                    placeholder="Valor"
-                                    step={0.01}
-                                    value={firstValue}
-                                    onChange={(e) => setFirstValue(e.target.value)}
-                                />
-                            </Div>
-
-                            <Div className="flex justify-end w-full mb-6 pr-2 gap-2 text-gray-600">
-                                <span>Mais Métodos</span>
-
-                                <Input
-                                    className="w-4 cursor-pointer"
-                                    id="moreMethodEdit"
-                                    name="moreMethodEdit"
-                                    type="checkbox"
-                                    value={moreMethodEdit}
-                                    onChange={(e) => setMoreMethodEdit(e.target.checked)}
-                                />
-                            </Div>
-
-                            {moreMethodEdit ? (
-                                <>
-                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                        <MdCategory className="text-gray-600 text-xl mr-2"/>
-                                        
-                                        <Select className="w-full px-2 outline-none" value={secondMethod} onChange={(e) => setSecondMethod(e.target.value)} required={false}>
-                                            <Option value="">
-                                                
-                                            </Option>
-
-                                            <Option value="Cartão">
-                                                Cartão
-                                            </Option>
-
-                                            <Option value="Espécie">
-                                                Espécie
-                                            </Option>
-
-                                            <Option value="Pix">
-                                                Pix
-                                            </Option>
+                                        <Select className="w-full p-0.5 cursor-pointer bg-transparent outline-none" value={secondMethod} onChange={(e) => setSecondMethod(e.target.value)} required>
+                                            <Option value=""></Option>
+                                            <Option value="Cartão">Cartão</Option>
+                                            <Option value="Espécie">Espécie</Option>
+                                            <Option value="Pix">Pix</Option>
                                         </Select>
                                     </Div>
 
-                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                        <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+                                    <Label className="font-medium" htmlFor="secondValue">Valor</Label>
+
+                                    <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                        <MdMonetizationOn className="text-gray-600 mr-2"/>
 
                                         <Input
-                                            className="w-full placeholder-gray-500 px-2 outline-none"
+                                            className="w-full outline-none bg-transparent"
                                             id="secondValue"
                                             name="secondValue"
                                             type="number"
-                                            placeholder="Valor"
                                             step={0.01}
+                                            placeholder="0,00"
                                             value={secondValue}
                                             onChange={(e) => setSecondValue(e.target.value)}
-                                            required={false}
+                                            required
                                         />
                                     </Div>
+                                </Div>
+                            ) : 
+                                null
+                            }
 
-                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                        <MdCategory className="text-gray-600 text-xl mr-2"/>
-                                        
-                                        <Select className="w-full px-2 outline-none" value={thirdMethod} onChange={(e) => setThirdMethod(e.target.value)} required={false}>
-                                            <Option value="">
-                                                
-                                            </Option>
+                            {showThirdMethod ? (
+                                <Div className="mt-1 pt-4">
+                                    <Div className="flex justify-between items-center">
+                                        <Label className="font-medium">Método de Pagamento</Label>
+                                        <MdClose className="text-red-600 hover:text-red-80 cursor-pointer" size={20} onClick={handleRemoveThirdMethod}/>
+                                    </Div>
 
-                                            <Option value="Cartão">
-                                                Cartão
-                                            </Option>
+                                    <Div className="flex items-center border rounded-lg p-2 mt-1 mb-4">
+                                        <MdCategory className="text-gray-600 mr-2"/>
 
-                                            <Option value="Espécie">
-                                                Espécie
-                                            </Option>
-
-                                            <Option value="Pix">
-                                                Pix
-                                            </Option>
+                                        <Select className="w-full p-0.5 cursor-pointer bg-transparent outline-none" value={thirdMethod} onChange={(e) => setThirdMethod(e.target.value)} required>
+                                            <Option value=""></Option>
+                                            <Option value="Cartão">Cartão</Option>
+                                            <Option value="Espécie">Espécie</Option>
+                                            <Option value="Pix">Pix</Option>
                                         </Select>
                                     </Div>
 
-                                    <Div className="flex items-center w-full mb-6 p-3 border border-gray-400 rounded-lg focus-within:ring-2 focus-within:ring-gray-400 transition-all">
-                                        <MdMonetizationOn className="text-gray-600 text-xl mr-2"/>
+                                    <Label className="font-medium" htmlFor="thirdValue">Valor</Label>
+
+                                    <Div className="flex items-center border rounded-lg p-2 mt-1">
+                                        <MdMonetizationOn className="text-gray-600 mr-2"/>
 
                                         <Input
-                                            className="w-full placeholder-gray-500 px-2 outline-none"
+                                            className="w-full outline-none bg-transparent"
                                             id="thirdValue"
                                             name="thirdValue"
                                             type="number"
-                                            placeholder="Valor"
                                             step={0.01}
+                                            placeholder="0,00"
                                             value={thirdValue}
                                             onChange={(e) => setThirdValue(e.target.value)}
-                                            required={false}
+                                            required
                                         />
                                     </Div>
-                                </>
-                            ) : (
+                                </Div>
+                            ) : 
                                 null
-                            )}
+                            }
 
-                            <Div className="flex justify-end gap-3">
-                                <Button className="bg-red-600 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-800 transition" type="button" onClick={handleCancel}>
+                            {!showSecondMethod || !showThirdMethod ? (
+                                <Button className="flex items-center justify-center gap-2 w-full border-2 border-dashed rounded-lg mt-6 py-2 text-gray-600 cursor-pointer hover:border-blue-500 hover:text-blue-500 transition" type="button" onClick={handleNewMethod}>
+                                    <MdAdd size={20}/> Editar outro método
+                                </Button>
+                            ) :
+                                null
+                            }
+
+                            <Div className="flex justify-end gap-4 mt-6">
+                                <Button className="bg-red-600 hover:bg-red-800 text-white px-4 py-2 rounded cursor-pointer" type="button" onClick={handleCancel}>
                                     Cancelar
                                 </Button>
 
-                                <Button className={`flex justify-center w-20 bg-blue-600 text-white py-2 rounded transition ${disabledInflowsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledInflowsButton}>
+                                <Button className={`flex justify-center w-28 bg-blue-600 text-white py-2 rounded transition ${disabledInflowsButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledInflowsButton}>
                                     {disabledInflowsButton ? <Spinner/> : <>Salvar</>}
                                 </Button>
                             </Div>
@@ -483,7 +460,7 @@ export default function InflowsPage() {
                     <Modal>
                         <Form className="flex flex-col" onSubimit={deleteInflow}>
                             <Div className="w-full flex justify-end">
-                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel}/>
+                                <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
 
                             <Div className="text-center text-xl mt-4 mb-8">

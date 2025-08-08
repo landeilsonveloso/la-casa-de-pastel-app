@@ -38,7 +38,7 @@ export default function Table({name, columns, data, onEdit, onDelete}) {
                                         )
                                     }
 
-                                    if (col.key === "methods") {
+                                    if (col.key === "method") {
                                         if (item.secondMethod && item.thirdMethod) {
                                             return (
                                                 <td key={col.key} className="px-6 py-4">

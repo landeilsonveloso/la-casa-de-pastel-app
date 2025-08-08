@@ -19,8 +19,8 @@ export default function useInflow() {
     const [filtered, setFiltered]  = useState([])
     const [filterType, setFilterType] = useState("")
     const [selectedDate, setSelectedDate] = useState(new Date())
-    const [moreMethodCreate, setMoreMethodCreate] = useState(false)
-    const [moreMethodEdit, setMoreMethodEdit] = useState(false)
+    const [showSecondMethod, setShowSecondMethod] = useState(false)
+    const [showThirdMethod, setShowThirdMethod] = useState(false)
     const [disabledInflowsButton, setDisabledInflowsButton] = useState(false)
     const [loading, setLoading] = useState(true)
 
@@ -38,7 +38,7 @@ export default function useInflow() {
     const columns = [
         {key: "description", label: "Descrição"},
         {key: "date", label: "Data"},
-        {key: "methods", label: "Métodos"},
+        {key: "method", label: "Método de Pagamento"},
         {key: "valueTotal", label: "Valor Total"}
     ]
     
@@ -95,7 +95,8 @@ export default function useInflow() {
             if (res.status === 201) {
                 toast.success(res.data)
                 closingModal()
-                setMoreMethodCreate(false)
+                setShowSecondMethod(false)
+                setShowThirdMethod(false)
                 readInflows()
             }
 
@@ -150,7 +151,8 @@ export default function useInflow() {
             if (res.status === 200) {
                 toast.success(res.data)
                 closingModal()
-                setMoreMethodEdit(false)
+                setShowSecondMethod(false)
+                setShowThirdMethod(false)
                 readInflows()
             }
 
@@ -313,13 +315,15 @@ export default function useInflow() {
 
     const handleAdd = useCallback(() => {
         setTag("Create")
-        setMoreMethodCreate(false)
+        setShowSecondMethod(false)
+        setShowThirdMethod(false)
         openingModal()
     }, [openingModal])
 
     const handleEdit = useCallback((item) => {
         setTag("Edit")
-        setMoreMethodEdit(false)
+        setShowSecondMethod(false)
+        setShowThirdMethod(false)
         openingModal()
         setId(item.id)
         setDescription(item.description)
@@ -340,9 +344,27 @@ export default function useInflow() {
 
     const handleCancel = useCallback(() => {
         closingModal()
-        setMoreMethodCreate(false)
-        setMoreMethodEdit(false)
+        setShowSecondMethod(false)
+        setShowThirdMethod(false)
     }, [closingModal])
+
+    const handleNewMethod = useCallback(() => {
+        if (!showSecondMethod) {
+            setShowSecondMethod(true)
+        }
+
+        else if (!showThirdMethod) {
+            setShowThirdMethod(true)
+        }
+    }, [showSecondMethod, showThirdMethod])
+
+    const handleRemoveSecondMethod = useCallback(() => {
+        setShowSecondMethod(false)
+    }, [])
+
+    const handleRemoveThirdMethod = useCallback(() => {
+        setShowThirdMethod(false)
+    }, [])
 
     return {
         description,
@@ -367,10 +389,10 @@ export default function useInflow() {
         setFilterType,
         selectedDate,
         setSelectedDate,
-        moreMethodCreate,
-        setMoreMethodCreate,
-        moreMethodEdit,
-        setMoreMethodEdit,
+        showSecondMethod,
+        setShowSecondMethod,
+        showThirdMethod,
+        setShowThirdMethod,
         disabledInflowsButton,
         loading,
         isOpen,
@@ -382,6 +404,9 @@ export default function useInflow() {
         handleAdd,
         handleEdit,
         handleDelete,
-        handleCancel
+        handleCancel,
+        handleNewMethod,
+        handleRemoveSecondMethod,
+        handleRemoveThirdMethod
     }
 }
