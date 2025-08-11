@@ -13,10 +13,10 @@ import Option from "src/components/Option"
 import Select from "src/components/Select"
 import Spinner from "src/components/Spinner"
 import Table from "src/components/Table"
+import TextArea from "src/components/TextArea"
 import Title from "src/components/Title"
 import useInflow from "src/hooks/useInflow"
 import useUtilities from "src/hooks/useUtilities"
-import TextArea from "src/components/TextArea"
 
 export default function InflowsPage() {
     const {
@@ -127,8 +127,8 @@ export default function InflowsPage() {
                                         className="w-full outline-none bg-transparent resize-none"
                                         id="description"
                                         name="description"
-                                        rows={4}
                                         placeholder="Descrição"
+                                        rows={4}
                                         onChange={(e) => setDescription(e.target.value)}
                                     />
                                 </Div>
@@ -297,8 +297,9 @@ export default function InflowsPage() {
                                         className="w-full outline-none bg-transparent resize-none"
                                         id="description"
                                         name="description"
-                                        rows={4}
                                         placeholder="Descrição"
+                                        rows={4}
+                                        value={description}
                                         onChange={(e) => setDescription(e.target.value)}
                                     />
                                 </Div>

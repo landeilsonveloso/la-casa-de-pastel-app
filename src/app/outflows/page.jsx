@@ -13,6 +13,7 @@ import Option from "src/components/Option"
 import Select from "src/components/Select"
 import Spinner from "src/components/Spinner"
 import Table from "src/components/Table"
+import TextArea from "src/components/TextArea"
 import Title from "src/components/Title"
 import useOutflow from "src/hooks/useOutflow"
 import useUtilities from "src/hooks/useUtilities"
@@ -35,7 +36,6 @@ export default function OutflowsPage() {
         setThirdMethod,
         thirdValue,
         setThirdValue,
-        outflows,
         filtered,
         filterType,
         setFilterType,
@@ -122,18 +122,16 @@ export default function OutflowsPage() {
                             <Div className="space-y-4">
                                 <Label className="font-medium" htmlFor="description">Descrição</Label>
 
-                                <Div className="flex items-center border rounded-lg p-2 mt-1">
-                                    <MdNotes className="text-gray-600 mr-2"/>
+                                <Div className="flex items-start border rounded-lg p-2 mt-1">
+                                    <MdNotes className="text-gray-600 mr-2 mt-1"/>
 
-                                    <Input
-                                        className="w-full outline-none bg-transparent"
+                                    <TextArea
+                                        className="w-full outline-none bg-transparent resize-none"
                                         id="description"
                                         name="description"
-                                        type="text"
-                                        maxLength={60}
                                         placeholder="Descrição"
+                                        rows={4}
                                         onChange={(e) => setDescription(e.target.value)}
-                                        required={true}
                                     />
                                 </Div>
 
@@ -294,19 +292,17 @@ export default function OutflowsPage() {
                             <Div className="space-y-4">
                                 <Label className="font-medium" htmlFor="description">Descrição</Label>
 
-                                <Div className="flex items-center border rounded-lg p-2 mt-1">
-                                    <MdNotes className="text-gray-600 mr-2"/>
+                                <Div className="flex items-start border rounded-lg p-2 mt-1">
+                                    <MdNotes className="text-gray-600 mr-2 mt-1"/>
 
-                                    <Input
-                                        className="w-full outline-none bg-transparent"
+                                    <TextArea
+                                        className="w-full outline-none bg-transparent resize-none"
                                         id="description"
                                         name="description"
-                                        type="text"
-                                        maxLength={60}
                                         placeholder="Descrição"
+                                        rows={4}
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
-                                        required={true}
                                     />
                                 </Div>
 
