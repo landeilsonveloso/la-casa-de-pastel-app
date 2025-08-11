@@ -16,6 +16,7 @@ import Table from "src/components/Table"
 import Title from "src/components/Title"
 import useInflow from "src/hooks/useInflow"
 import useUtilities from "src/hooks/useUtilities"
+import TextArea from "src/components/TextArea"
 
 export default function InflowsPage() {
     const {
@@ -119,18 +120,16 @@ export default function InflowsPage() {
                             <Div className="space-y-4">
                                 <Label className="font-medium" htmlFor="description">Descrição</Label>
 
-                                <Div className="flex items-center border rounded-lg p-2 mt-1">
-                                    <MdNotes className="text-gray-600 mr-2"/>
+                                <Div className="flex items-start border rounded-lg p-2 mt-1">
+                                    <MdNotes className="text-gray-600 mr-2 mt-1"/>
 
-                                    <Input
-                                        className="w-full outline-none bg-transparent"
+                                    <TextArea
+                                        className="w-full outline-none bg-transparent resize-none"
                                         id="description"
                                         name="description"
-                                        type="text"
-                                        maxLength={60}
+                                        rows={4}
                                         placeholder="Descrição"
                                         onChange={(e) => setDescription(e.target.value)}
-                                        required
                                     />
                                 </Div>
 
@@ -291,19 +290,16 @@ export default function InflowsPage() {
                             <Div className="space-y-4">
                                 <Label className="font-medium" htmlFor="description">Descrição</Label>
 
-                                <Div className="flex items-center border rounded-lg p-2 mt-1">
-                                    <MdNotes className="text-gray-600 mr-2"/>
+                                <Div className="flex items-start border rounded-lg p-2 mt-1">
+                                    <MdNotes className="text-gray-600 mr-2 mt-1"/>
 
-                                    <Input
-                                        className="w-full outline-none bg-transparent"
+                                    <TextArea
+                                        className="w-full outline-none bg-transparent resize-none"
                                         id="description"
                                         name="description"
-                                        type="text"
-                                        maxLength={60}
+                                        rows={4}
                                         placeholder="Descrição"
-                                        value={description}
                                         onChange={(e) => setDescription(e.target.value)}
-                                        required
                                     />
                                 </Div>
 
