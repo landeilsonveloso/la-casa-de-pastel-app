@@ -41,7 +41,6 @@ export default function SignInPage() {
                         id="email"
                         name="email"
                         type="email"
-                        maxLength={60}
                         placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -56,7 +55,6 @@ export default function SignInPage() {
                         id="password"
                         name="password"
                         type={passwordVisibility ? "text" : "password"}
-                        maxLength={18}
                         placeholder="Senha"
                         onChange={(e) => setPassword(e.target.value)}
                         required
