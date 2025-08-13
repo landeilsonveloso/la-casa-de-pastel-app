@@ -57,7 +57,7 @@ export default function RedefinePasswordPage() {
                         }
                     </Div>
 
-                    <Div className="flex items-center w-full p-2 sm:p-3 bg-black/30 text-white border border-white/20 rounded-lg focus-within:ring-2 focus-within:ring-blue-600">
+                    <Div className="flex items-center w-full p-2 sm:p-3 bg-black/30 text-white border border-white/20 rounded-lg focus-within:ring-1 focus-within:ring-blue-600">
                         <MdLock size={24}/>
 
                         <Input
