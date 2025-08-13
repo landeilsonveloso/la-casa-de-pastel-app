@@ -32,7 +32,7 @@ export default function RedefinePasswordPage() {
     return (
         <AuthProvider>
             <Main>
-                <Form className="flex flex-col" onSubimit={redefinePassword}>
+                <Form className="flex flex-col" onSubmit={redefinePassword}>
                     <Logo/>
 
                     <Title>Redefinir Senha</Title>

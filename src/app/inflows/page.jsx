@@ -110,7 +110,7 @@ export default function InflowsPage() {
 
                 {isOpen && tag === "Create" ? (
                     <Modal>
-                        <Form onSubimit={createInflow}>
+                        <Form onSubmit={createInflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
@@ -280,7 +280,7 @@ export default function InflowsPage() {
 
                 {isOpen && tag === "Edit" ? (
                     <Modal>
-                        <Form onSubimit={updateInflow}>
+                        <Form onSubmit={updateInflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
@@ -455,7 +455,7 @@ export default function InflowsPage() {
 
                 {isOpen && tag === "Delete" ? (
                     <Modal>
-                        <Form className="flex flex-col" onSubimit={deleteInflow}>
+                        <Form className="flex flex-col" onSubmit={deleteInflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>

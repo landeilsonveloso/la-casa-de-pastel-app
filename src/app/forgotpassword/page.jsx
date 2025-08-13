@@ -21,7 +21,7 @@ export default function ForgotPasswordPage() {
 
     return (
         <Main>
-            <Form className="flex flex-col" onSubimit={forgotPassword}>
+            <Form className="flex flex-col" onSubmit={forgotPassword}>
                 <Logo/>
 
                 <Title>Recuperar Senha</Title>

@@ -79,7 +79,7 @@ export default function ItemsPage() {
 
                 {isOpen && tag === "Create" ? (
                     <Modal>
-                        <Form onSubimit={createItem}>
+                        <Form onSubmit={createItem}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
@@ -173,7 +173,7 @@ export default function ItemsPage() {
 
                 {isOpen && tag === "Edit" ? (
                     <Modal>
-                        <Form onSubimit={updateItem}>
+                        <Form onSubmit={updateItem}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
@@ -269,7 +269,7 @@ export default function ItemsPage() {
 
                 {isOpen && tag === "Delete" ? (
                     <Modal>
-                        <Form className="flex flex-col" onSubimit={deleteItem}>
+                        <Form className="flex flex-col" onSubmit={deleteItem}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>

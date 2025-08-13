@@ -28,16 +28,16 @@ export default function SignInPage() {
 
     return (
         <Main>
-            <Form className="flex flex-col" onSubimit={signIn}>
+            <Form className="flex flex-col gap-4" onSubmit={signIn}>
                 <Logo/>
 
-                <Title>Entrar</Title>
+                <Title className="text-lg sm:text-xl lg:text-2xl text-center">Entrar</Title>
                 
-                <Div className="flex items-center w-full mb-4 p-2 bg-black/30 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                <Div className="flex items-center w-full p-2 sm:p-3 bg-black/30 text-white border border-white/20 rounded-lg focus-within:ring-1 focus-within:ring-blue-600">
                     <MdEmail size={24}/>
 
                     <Input
-                        className="w-full px-2 text-white outline-none"
+                        className="w-full px-2 text-white outline-none text-sm sm:text-base"
                         id="email"
                         name="email"
                         type="email"
@@ -47,11 +47,11 @@ export default function SignInPage() {
                     />
                 </Div>
 
-                <Div className="flex items-center w-full mb-4 p-2 bg-black/30 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                <Div className="flex items-center w-full p-2 sm:p-3 bg-black/30 text-white border border-white/20 rounded-lg focus-within:ring-1 focus-within:ring-blue-600">
                     <MdLock size={24}/>
 
                     <Input
-                        className="w-full px-2 text-white outline-none"
+                        className="w-full px-2 text-white outline-none text-sm sm:text-base"
                         id="password"
                         name="password"
                         type={passwordVisibility ? "text" : "password"}
@@ -67,11 +67,11 @@ export default function SignInPage() {
                     }
                 </Div>
 
-                <Navigation className="flex justify-end" href="/forgotpassword">
+                <Navigation className="flex justify-end text-xs sm:text-sm" href="/forgotpassword">
                     Esqueceu a senha?
                 </Navigation>
 
-                <Button className={`flex justify-center w-full py-2 rounded-lg bg-blue-600 text-white font-bold transition ${disabledUserButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledUserButton}>
+                <Button className={`flex justify-center w-full py-2 sm:py-3 rounded-lg bg-blue-600 text-white font-bold transition ${disabledUserButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledUserButton}>
                     {disabledUserButton ? <Spinner/> : <>Entrar</>}
                 </Button>
             </Form>

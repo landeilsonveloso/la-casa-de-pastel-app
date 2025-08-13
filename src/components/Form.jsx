@@ -1,6 +1,6 @@
-export default function Form({className, onSubimit, children}) {
+export default function Form({className, onSubmit, children}) {
     return (
-        <form className={className} onSubmit={onSubimit}>
+        <form className={className} onSubmit={onSubmit}>
             {children}
         </form>
     )

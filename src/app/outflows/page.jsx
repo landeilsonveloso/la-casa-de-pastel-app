@@ -42,9 +42,7 @@ export default function OutflowsPage() {
         selectedDate,
         setSelectedDate,
         showSecondMethod,
-        setShowSecondMethod,
         showThirdMethod,
-        setShowThirdMethod,
         disabledOutflowsButton,
         loading,
         isOpen,
@@ -112,7 +110,7 @@ export default function OutflowsPage() {
 
                 {isOpen && tag === "Create" ? (
                     <Modal>
-                        <Form onSubimit={createOutflow}>
+                        <Form onSubmit={createOutflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
@@ -282,7 +280,7 @@ export default function OutflowsPage() {
 
                 {isOpen && tag === "Edit" ? (
                     <Modal>
-                        <Form onSubimit={updateOutflow}>
+                        <Form onSubmit={updateOutflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
@@ -457,7 +455,7 @@ export default function OutflowsPage() {
 
                 {isOpen && tag === "Delete" ? (
                     <Modal>
-                        <Form className="flex flex-col" onSubimit={deleteOutflow}>
+                        <Form className="flex flex-col" onSubmit={deleteOutflow}>
                             <Div className="w-full flex justify-end">
                                 <MdClose className="cursor-pointer" size={30} onClick={handleCancel} title="Fechar Modal"/>
                             </Div>
