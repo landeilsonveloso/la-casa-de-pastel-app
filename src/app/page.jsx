@@ -18,7 +18,7 @@ export default function SignInPage() {
         setEmail,
         setPassword,
         disabledUserButton,
-        signIn,
+        signIn
     } = useUser()
 
     const {
@@ -28,16 +28,18 @@ export default function SignInPage() {
 
     return (
         <Main>
-            <Form className="flex flex-col" onSubimit={signIn}>
-                <Logo/>
+            <Form className="flex flex-col gap-4" onSubmit={signIn}>
+                <Div className="flex justify-center">
+                    <Logo className="w-20 sm:w-24 lg:w-28"/>
+                </Div>
 
-                <Title>Entrar</Title>
+                <Title className="text-lg sm:text-xl lg:text-2xl text-center">Entrar</Title>
                 
-                <Div className="flex items-center w-full mb-4 p-2 bg-black/30 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
-                    <MdEmail size={24}/>
+                <Div className="flex items-center w-full p-2 sm:p-3 bg-black/30 text-white border border-white/20 rounded-lg focus-within:ring-2 focus-within:ring-pink-500">
+                    <MdEmail size={22} className="flex-shrink-0"/>
 
                     <Input
-                        className="w-full px-2 text-white outline-none"
+                        className="w-full px-2 text-white outline-none text-sm sm:text-base"
                         id="email"
                         name="email"
                         type="email"
@@ -47,11 +49,11 @@ export default function SignInPage() {
                     />
                 </Div>
 
-                <Div className="flex items-center w-full mb-4 p-2 bg-black/30 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
-                    <MdLock size={24}/>
+                <Div className="flex items-center w-full p-2 sm:p-3 bg-black/30 text-white border border-white/20 rounded-lg focus-within:ring-2 focus-within:ring-pink-500">
+                    <MdLock size={22} className="flex-shrink-0"/>
 
                     <Input
-                        className="w-full px-2 text-white outline-none"
+                        className="w-full px-2 text-white outline-none text-sm sm:text-base"
                         id="password"
                         name="password"
                         type={passwordVisibility ? "text" : "password"}
@@ -59,20 +61,20 @@ export default function SignInPage() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-
+                    
                     {passwordVisibility ? 
-                        <MdVisibility className="cursor-pointer" size={24} onClick={() => setPasswordVisibility(false)}/>
+                        <MdVisibility className="cursor-pointer flex-shrink-0" size={22} onClick={() => setPasswordVisibility(false)}/>
                     :
-                        <MdVisibilityOff className="cursor-pointer" size={24} onClick={() => setPasswordVisibility(true)}/>
+                        <MdVisibilityOff className="cursor-pointer flex-shrink-0" size={22} onClick={() => setPasswordVisibility(true)}/>
                     }
                 </Div>
 
-                <Navigation className="flex justify-end" href="/forgotpassword">
+                <Navigation className="flex justify-end text-xs sm:text-sm" href="/forgotpassword">
                     Esqueceu a senha?
                 </Navigation>
 
-                <Button className={`flex justify-center w-full py-2 rounded-lg bg-blue-600 text-white font-bold transition ${disabledUserButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledUserButton}>
-                    {disabledUserButton ? <Spinner/> : <>Entrar</>}
+                <Button className={`flex justify-center w-full py-2 sm:py-3 rounded-lg bg-blue-600 text-white font-bold transition ${disabledUserButton ? "cursor-default opacity-70" : "hover:bg-blue-800 cursor-pointer"}`} disabled={disabledUserButton}>
+                    {disabledUserButton ? <Spinner /> : <>Entrar</>}
                 </Button>
             </Form>
         </Main>
