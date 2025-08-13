@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import {MdClose, MdConstruction, MdDashboard, MdDescription, MdInventory, MdLogout, MdMenu, MdMonetizationOn, MdMoneyOff} from 'react-icons/md'
+import {MdClose, MdDashboard, MdInventory, MdLogout, MdMenu, MdMonetizationOn, MdMoneyOff} from 'react-icons/md'
 
 export default function SideBar() {
     const [isOpen, setIsOpen] = useState(true)
