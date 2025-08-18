@@ -24,7 +24,7 @@ export default function Table({name, columns, data, onEdit, onDelete}) {
                 <tbody>
                     {data.length > 0 ? (
                         data.map((item, index) => (
-                            <tr key={item.id || index} className="border-b border-gray-700 hover:hover:bg-[#5e1f1f] transition">
+                            <tr key={item.id || index} className="border-b border-gray-700 hover:bg-[#5e1f1f] transition">
                                 {columns.map((col) => {
                                     const value = item[col.key]
 
