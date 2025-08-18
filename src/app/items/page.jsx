@@ -97,7 +97,6 @@ export default function ItemsPage() {
                                         id="description"
                                         name="description"
                                         type="text"
-                                        maxLength={60}
                                         placeholder="Descrição"
                                         onChange={(e) => setDescription(e.target.value)}
                                         required
@@ -191,7 +190,6 @@ export default function ItemsPage() {
                                         id="description"
                                         name="description"
                                         type="text"
-                                        maxLength={60}
                                         placeholder="Descrição"
                                         value={description}
                                         onChange={(e) => setDescription(e.target.value)}
