@@ -317,6 +317,10 @@ export default function useOutflow() {
         setTag("Create")
         setShowSecondMethod(false)
         setShowThirdMethod(false)
+        setSecondMethod("")
+        setSecondValue(0)
+        setThirdMethod("")
+        setThirdValue(0)
         openingModal()
     }, [openingModal])
 
@@ -346,6 +350,10 @@ export default function useOutflow() {
         closingModal()
         setShowSecondMethod(false)
         setShowThirdMethod(false)
+        setSecondMethod("")
+        setSecondValue(0)
+        setThirdMethod("")
+        setThirdValue(0)
     }, [closingModal])
 
     const handleNewMethod = useCallback(() => {
