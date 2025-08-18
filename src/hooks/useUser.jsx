@@ -68,6 +68,7 @@ export default function useUser() {
 
     const forgotPassword = useCallback(async (e) => {
         e.preventDefault()
+        
         setDisabledUserButton(true)
 
         try {
