@@ -95,8 +95,6 @@ export default function useOutflow() {
             if (res.status === 201) {
                 toast.success(res.data)
                 closingModal()
-                setShowSecondMethod(false)
-                setShowThirdMethod(false)
                 readOutflows()
             }
 
@@ -151,8 +149,6 @@ export default function useOutflow() {
             if (res.status === 200) {
                 toast.success(res.data)
                 closingModal()
-                setShowSecondMethod(false)
-                setShowThirdMethod(false)
                 readOutflows()
             }
 
